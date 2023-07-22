@@ -88,6 +88,10 @@ sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbac
 
 put it together in userdata
 
+## UserData
+
+Use this userdata to configure an EC2 instance which connect to msk cluster
+
 ```bash
 sudo yum -y install java-11
 wget https://archive.apache.org/dist/kafka/2.8.1/kafka_2.13-2.8.1.tgz
