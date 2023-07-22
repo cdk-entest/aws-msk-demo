@@ -41,6 +41,41 @@ policy
 }
 ```
 
+and policy to access kafka, glue
+
+```json
+{
+    "Sid": "ReadGlue",
+    "Effect": "Allow",
+    "Action": [
+        "glue:*"
+    ],
+    "Resource": [
+        "*"
+    ]
+},
+{
+    "Sid": "ReadKafka",
+    "Effect": "Allow",
+    "Action": [
+        "kafka:*"
+    ],
+    "Resource": [
+        "*"
+    ]
+},
+{
+    "Sid": "AccessMSK",
+    "Effect": "Allow",
+    "Action": [
+        "kafka-cluster:*"
+    ],
+    "Resource": [
+        "*"
+    ]
+},
+```
+
 please double check below policy
 
 ```txt
@@ -288,6 +323,7 @@ SELECT * FROM stock_stream
 
 ## Troubeshooting
 
+- ensure that notebook (inside vpc) can accessl glue catalog via nat or vpc endpoint
 - update vpc configuration of notebook to access msk inside a cluster
 - update role of the zeppeline notebook
 - update security (allow unauthorized access) of msk
@@ -296,3 +332,5 @@ SELECT * FROM stock_stream
 ## Reference
 
 - [msk kafka to apache iceberg](https://github.com/aws-samples/aws-glue-streaming-ingestion-from-kafka-to-apache-iceberg/tree/main)
+
+- [glue vpc endpoint](https://repost.aws/knowledge-center/glue-connect-time-out-error)
