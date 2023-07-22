@@ -257,14 +257,14 @@ Please update the vpc configuration for notebook first, so it can access msk clu
 DROP TABLE IF EXISTS stock_stream;
 
 CREATE TABLE stock_stream (
-    ticker VARCHAR(6),
-    price DOUBLE,
-    event_time TIMESTAMP(3)
+    ticker STRING,
+    price STRING,
+    event_time STRING
   )
 WITH (
     'connector' = 'kafka',
     'topic' = 'stock-topic',
-    'properties.bootstrap.servers' = 'IAM_BOOTSTRAP_BROKERS_GO_HERE',
+    'properties.bootstrap.servers' = 'b-2.democluster2.vidd98.c3.kafka.ap-southeast-1.amazonaws.com:9098,b-1.democluster2.vidd98.c3.kafka.ap-southeast-1.amazonaws.com:9098,b-3.democluster2.vidd98.c3.kafka.ap-southeast-1.amazonaws.com:9098',
     'properties.group.id' = 'KdaStudioGroup',
     'scan.startup.mode' = 'latest-offset',
     'format' = 'json',
