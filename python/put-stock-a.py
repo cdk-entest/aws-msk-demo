@@ -33,7 +33,8 @@ producer = Producer({
 while True:
   # create event 
   event = {
-        'event_time': datetime.datetime.now().isoformat(),
+        # 'event_time': datetime.datetime.now().isoformat(),
+        'event_time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"),
         'ticker': random.choice(['AAPL', 'AMZN', 'MSFT', 'INTC', 'TBV']),
         'price': round(random.random() * 100, 2)
     }

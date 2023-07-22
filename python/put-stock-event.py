@@ -9,7 +9,6 @@ import random
 # bootstrapserver
 BOOTSTRAP_SERVERS ="SSL_BOOTSTRAP_BROKERS_GO_HERE"
 
-
 # topic name 
 TOPIC = "stock-topic"
 
@@ -26,7 +25,8 @@ producer = KafkaProducer(
 while True:
     # create stock event
     event = {
-        'event_time': datetime.datetime.now().isoformat(),
+        # 'event_time': datetime.datetime.now().isoformat(),
+        'event_time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"),
         'ticker': random.choice(['AAPL', 'AMZN', 'MSFT', 'INTC', 'TBV']),
         'price': round(random.random() * 100, 2)
     }

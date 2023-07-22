@@ -2,95 +2,19 @@
 author: haimtran
 title: getting started with msk
 description: getting started with msk
-publishedDate: 21/07/2023
-daet: 21/07/2023
+publishedDate: 20-07-2023
+date: 20-07-2023
 ---
 
-## Policy for Client
+## Introduction
 
-policy
+This [GitHub](https://github.com/cdk-entest/aws-msk-demo) shows basic architecture and examples with MSK and Kinesis Data Analytics (FLINK)
 
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "kafka-cluster:Connect",
-        "kafka-cluster:AlterCluster",
-        "kafka-cluster:DescribeCluster"
-      ],
-      "Resource": ["*"]
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "kafka-cluster:*Topic*",
-        "kafka-cluster:WriteData",
-        "kafka-cluster:ReadData"
-      ],
-      "Resource": ["*"]
-    },
-    {
-      "Effect": "Allow",
-      "Action": ["kafka-cluster:AlterGroup", "kafka-cluster:DescribeGroup"],
-      "Resource": ["*"]
-    }
-  ]
-}
-```
-
-and policy to access kafka, glue
-
-```json
-{
-    "Sid": "ReadGlue",
-    "Effect": "Allow",
-    "Action": [
-        "glue:*"
-    ],
-    "Resource": [
-        "*"
-    ]
-},
-{
-    "Sid": "ReadKafka",
-    "Effect": "Allow",
-    "Action": [
-        "kafka:*"
-    ],
-    "Resource": [
-        "*"
-    ]
-},
-{
-    "Sid": "AccessMSK",
-    "Effect": "Allow",
-    "Action": [
-        "kafka-cluster:*"
-    ],
-    "Resource": [
-        "*"
-    ]
-},
-```
-
-please double check below policy
-
-```txt
-CloudWatchFullAccess
-CloudWatchLogsFullAccess
-AmazonKinesisFullAccess
-AmazonS3FullAccess
-AWSGlueServiceRole
-```
-
-to access msk cluster inside an vpc we need to attach AmazonVPCFullAccess to the notebook
-
-```txt
-AmazonVPCFullAccess
-```
+- Create a msk cluster
+- Create client, pub/sub topic
+- Update cluster configuration
+- Create a zeppeline notebook
+- Do some simple streaming analytics
 
 ## Setup Client
 
@@ -249,7 +173,13 @@ while True:
 
 ## Notebook
 
-Please update the vpc configuration for notebook first, so it can access msk cluster inside a vpc.Then let create a table which connect to the kafka topic stream, please use the IAM BOOTSTRAP CLUSTER
+Please update the vpc configuration for notebook first, so it can access msk cluster inside a vpc.Then let create a table which connect to the kafka topic stream, please use the IAM BOOTSTRAP CLUSTER. From the producer please use correct datetime formate for event_time.
+
+```py
+'event_time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+```
+
+let create a table which connect to the kafka topic
 
 ```sql
 %flink.ssql(type=update)
@@ -258,8 +188,8 @@ DROP TABLE IF EXISTS stock_stream;
 
 CREATE TABLE stock_stream (
     ticker STRING,
-    price STRING,
-    event_time STRING
+    price DOUBLE,
+    event_time  TIMESTAMP(3)
   )
 WITH (
     'connector' = 'kafka',
@@ -282,7 +212,93 @@ run a simple query
 SELECT * FROM stock_stream
 ```
 
-## Policy
+## Policy for Client
+
+policy
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "kafka-cluster:Connect",
+        "kafka-cluster:AlterCluster",
+        "kafka-cluster:DescribeCluster"
+      ],
+      "Resource": ["*"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "kafka-cluster:*Topic*",
+        "kafka-cluster:WriteData",
+        "kafka-cluster:ReadData"
+      ],
+      "Resource": ["*"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["kafka-cluster:AlterGroup", "kafka-cluster:DescribeGroup"],
+      "Resource": ["*"]
+    }
+  ]
+}
+```
+
+and policy to access kafka, glue
+
+```json
+{
+    "Sid": "ReadGlue",
+    "Effect": "Allow",
+    "Action": [
+        "glue:*"
+    ],
+    "Resource": [
+        "*"
+    ]
+},
+{
+    "Sid": "ReadKafka",
+    "Effect": "Allow",
+    "Action": [
+        "kafka:*"
+    ],
+    "Resource": [
+        "*"
+    ]
+},
+{
+    "Sid": "AccessMSK",
+    "Effect": "Allow",
+    "Action": [
+        "kafka-cluster:*"
+    ],
+    "Resource": [
+        "*"
+    ]
+},
+```
+
+please double check below policy
+
+```txt
+CloudWatchFullAccess
+CloudWatchLogsFullAccess
+AmazonKinesisFullAccess
+AmazonS3FullAccess
+AWSGlueServiceRole
+```
+
+to access msk cluster inside an vpc we need to attach AmazonVPCFullAccess to the notebook
+
+```txt
+AmazonVPCFullAccess
+```
+
+Best practice policy with resource arn
 
 ```json
 {
@@ -334,3 +350,11 @@ SELECT * FROM stock_stream
 - [msk kafka to apache iceberg](https://github.com/aws-samples/aws-glue-streaming-ingestion-from-kafka-to-apache-iceberg/tree/main)
 
 - [glue vpc endpoint](https://repost.aws/knowledge-center/glue-connect-time-out-error)
+
+- [msk event source lambda](https://www.youtube.com/watch?v=JKvIypfEiok)
+
+- [msk and kinesis data analytics](https://www.youtube.com/watch?v=2Qhc6ePu-0M)
+
+- [msk and operations](https://www.youtube.com/watch?v=AUx5x_jrX6I)
+
+- [msk connect](https://www.youtube.com/watch?v=KtECJViknCM)
