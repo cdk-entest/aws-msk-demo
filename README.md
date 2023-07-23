@@ -17,6 +17,8 @@ This [GitHub](https://github.com/cdk-entest/aws-msk-demo) shows basic architectu
 - Create a zeppeline notebook
 - Do some simple streaming analytics
 
+![msk-arch](https://github.com/cdk-entest/aws-msk-demo/assets/20411077/58f9bac9-320e-440f-83b4-5b59106ab681)
+
 ## Setup Client
 
 install java for EC2
@@ -67,6 +69,8 @@ chmod 700 client.properties
 ```
 
 ## Pub and Sub
+
+![msk-kda-demo-1](https://github.com/cdk-entest/aws-msk-demo/assets/20411077/f1eb34b9-49b5-4dd3-83ae-d1f07732badf)
 
 Check the msk client information to get endpoint and run below command to create an topic. Export the list of broker
 
@@ -173,6 +177,8 @@ while True:
 ```
 
 ## Notebook
+
+![msk-kda-demo-2](https://github.com/cdk-entest/aws-msk-demo/assets/20411077/3d0083a9-b8e1-497a-827c-93456bf42b96)
 
 Please update the vpc configuration for notebook first, so it can access msk cluster inside a vpc.Then let create a table which connect to the kafka topic stream, please use the IAM BOOTSTRAP CLUSTER. From the producer please use correct datetime formate for event_time.
 
