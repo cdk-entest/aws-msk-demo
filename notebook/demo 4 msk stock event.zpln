@@ -1,9 +1,99 @@
 ﻿{
   "paragraphs": [
     {
-      "text": "%flink.ssql(type=update)\n\nDROP TABLE IF EXISTS stock_stream;\n\nCREATE TABLE stock_stream (\n    ticker STRING,\n    price STRING,\n    event_time STRING\n  )\nWITH (\n    'connector' = 'kafka',\n    'topic' = 'stock-topic',\n    'properties.bootstrap.servers' = 'b-2.democluster2.vidd98.c3.kafka.ap-southeast-1.amazonaws.com:9098,b-1.democluster2.vidd98.c3.kafka.ap-southeast-1.amazonaws.com:9098,b-3.democluster2.vidd98.c3.kafka.ap-southeast-1.amazonaws.com:9098',\n    'properties.group.id' = 'KdaStudioGroup',\n    'scan.startup.mode' = 'latest-offset',\n    'format' = 'json',\n    'properties.security.protocol' = 'SASL_SSL',\n    'properties.sasl.mechanism' = 'AWS_MSK_IAM',\n    'properties.sasl.jaas.config' = 'software.amazon.msk.auth.iam.IAMLoginModule required;',\n    'properties.sasl.client.callback.handler.class' = 'software.amazon.msk.auth.iam.IAMClientCallbackHandler'\n);",
+      "text": "%md\n## Analyse Data in Kafka Topic Using KDA Flink\n\n- Please check vpc endpoint for s3 and glue since MSK cluster inside VPC \n- Please check BOOTSTRAP SSL \n- Please check MSK security connection (allows unthorized for testing)",
       "user": "anonymous",
-      "dateUpdated": "2023-07-22T15:06:02+0000",
+      "dateUpdated": "2023-07-23T00:33:11+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690072296999_2039935240",
+      "id": "paragraph_1690072296999_2039935240",
+      "dateCreated": "2023-07-23T00:31:36+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:15407",
+      "dateFinished": "2023-07-23T00:33:11+0000",
+      "dateStarted": "2023-07-23T00:33:11+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Analyse Data in Kafka Topic Using KDA Flink</h2>\n<ul>\n<li>Please check vpc endpoint for s3 and glue since MSK cluster inside VPC</li>\n<li>Please check BOOTSTRAP SSL</li>\n<li>Please check MSK security connection (allows unthorized for testing)</li>\n</ul>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md \n## Create a Table Connecting a Kafka Topic \n",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-22T23:57:18+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Create a Table Connecting a Kafka Topic</h2>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690070218139_30410400",
+      "id": "paragraph_1690070218139_30410400",
+      "dateCreated": "2023-07-22T23:56:58+0000",
+      "dateStarted": "2023-07-22T23:57:18+0000",
+      "dateFinished": "2023-07-22T23:57:21+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:286"
+    },
+    {
+      "text": "%flink.ssql(type=update)\n\nDROP TABLE IF EXISTS stock_table;\n\nCREATE TABLE stock_table (\n    ticker STRING,\n    price DOUBLE,\n    event_time  TIMESTAMP(3),\n    WATERMARK FOR event_time AS event_time - INTERVAL '5' SECOND\n  )\nWITH (\n    'connector' = 'kafka',\n    'topic' = 'stock-topic',\n    'properties.bootstrap.servers' = 'b-2.democluster2.vidd98.c3.kafka.ap-southeast-1.amazonaws.com:9098,b-1.democluster2.vidd98.c3.kafka.ap-southeast-1.amazonaws.com:9098,b-3.democluster2.vidd98.c3.kafka.ap-southeast-1.amazonaws.com:9098',\n    'properties.group.id' = 'KdaStudioGroup',\n    'scan.startup.mode' = 'latest-offset',\n    'format' = 'json',\n    'properties.security.protocol' = 'SASL_SSL',\n    'properties.sasl.mechanism' = 'AWS_MSK_IAM',\n    'properties.sasl.jaas.config' = 'software.amazon.msk.auth.iam.IAMLoginModule required;',\n    'properties.sasl.client.callback.handler.class' = 'software.amazon.msk.auth.iam.IAMClientCallbackHandler'\n);",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:01:44+0000",
       "progress": 0,
       "config": {
         "editorSetting": {
@@ -37,16 +127,197 @@
       "jobName": "paragraph_1690036189814_1869273859",
       "id": "paragraph_1690036189814_1869273859",
       "dateCreated": "2023-07-22T14:29:49+0000",
-      "dateStarted": "2023-07-22T15:06:02+0000",
-      "dateFinished": "2023-07-22T15:06:03+0000",
+      "dateStarted": "2023-07-23T00:01:44+0000",
+      "dateFinished": "2023-07-23T00:01:45+0000",
       "status": "FINISHED",
-      "focus": true,
-      "$$hashKey": "object:10807"
+      "$$hashKey": "object:287"
     },
     {
-      "text": "%flink.ssql(type=update)\nSELECT * FROM stock_stream",
+      "text": "%md \n## Simple Query",
       "user": "anonymous",
-      "dateUpdated": "2023-07-22T15:07:08+0000",
+      "dateUpdated": "2023-07-22T23:57:31+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Simple Query</h2>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690070244323_1975448854",
+      "id": "paragraph_1690070244323_1975448854",
+      "dateCreated": "2023-07-22T23:57:24+0000",
+      "dateStarted": "2023-07-22T23:57:31+0000",
+      "dateFinished": "2023-07-22T23:57:31+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:288"
+    },
+    {
+      "text": "%flink.ssql(type=update)\nSELECT * FROM stock_table",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:01:52+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 12,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "ticker": "string",
+                      "price": "string",
+                      "event_time": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "FLINK JOB",
+          "tooltip": "View in Flink web UI",
+          "group": "flink",
+          "values": [
+            {
+              "jobUrl": "/flinkdashboard/#/job/b88248a4ead9a594545ab48433f8179b",
+              "$$hashKey": "object:14675"
+            }
+          ],
+          "interpreterSettingId": "flink"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690036197020_1384337588",
+      "id": "paragraph_1690036197020_1384337588",
+      "dateCreated": "2023-07-22T14:29:57+0000",
+      "dateStarted": "2023-07-23T00:01:52+0000",
+      "dateFinished": "2023-07-23T00:15:09+0000",
+      "status": "ABORT",
+      "$$hashKey": "object:289",
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "ticker\tprice\tevent_time\nAAPL\t8.39\t2023-07-23 00:02:04.4227\nAAPL\t94.39\t2023-07-23 00:02:10.436418\nAAPL\t10.63\t2023-07-23 00:02:42.507312\nAAPL\t17.15\t2023-07-23 00:02:56.538514\nAAPL\t74.63\t2023-07-23 00:02:58.543036\nAAPL\t47.41\t2023-07-23 00:03:12.574446\nAAPL\t67.08\t2023-07-23 00:03:38.633562\nAAPL\t5.17\t2023-07-23 00:03:40.63791\nAAPL\t30.17\t2023-07-23 00:03:46.649887\nAAPL\t73.87\t2023-07-23 00:03:48.65432\nAAPL\t4.95\t2023-07-23 00:03:52.663571\nAAPL\t5.07\t2023-07-23 00:03:58.6773\nAAPL\t46.22\t2023-07-23 00:04:00.681701\nAAPL\t98.88\t2023-07-23 00:04:04.690692\nAAPL\t70.06\t2023-07-23 00:04:10.704043\nAAPL\t47.55\t2023-07-23 00:04:20.72521\nAAPL\t94.65\t2023-07-23 00:04:40.768906\nAAPL\t58.24\t2023-07-23 00:04:48.787058\nAAPL\t12.53\t2023-07-23 00:04:52.796022\nAAPL\t19.17\t2023-07-23 00:05:04.822406\nAAPL\t34.06\t2023-07-23 00:05:18.853042\nAAPL\t50.45\t2023-07-23 00:05:20.857384\nAAPL\t68.77\t2023-07-23 00:05:42.905775\nAAPL\t40.09\t2023-07-23 00:05:56.937033\nAAPL\t18.51\t2023-07-23 00:05:58.941662\nAAPL\t55.14\t2023-07-23 00:06:10.967449\nAAPL\t89.02\t2023-07-23 00:06:17.00404\nAAPL\t72.89\t2023-07-23 00:06:19.00841\nAAPL\t36.32\t2023-07-23 00:06:29.029374\nAAPL\t48.66\t2023-07-23 00:06:31.033372\nAAPL\t40.04\t2023-07-23 00:06:37.04715\nAAPL\t38.79\t2023-07-23 00:06:47.069668\nAAPL\t2.01\t2023-07-23 00:06:49.074097\nAAPL\t6.29\t2023-07-23 00:06:57.092492\nAAPL\t12.5\t2023-07-23 00:07:03.106079\nAAPL\t81.01\t2023-07-23 00:07:05.110654\nAAPL\t92.43\t2023-07-23 00:07:07.11514\nAAPL\t40.28\t2023-07-23 00:07:47.204916\nAAPL\t93.3\t2023-07-23 00:08:01.236286\nAAPL\t54.27\t2023-07-23 00:08:07.249791\nAAPL\t31.5\t2023-07-23 00:08:09.254466\nAAPL\t84.4\t2023-07-23 00:08:15.268037\nAAPL\t64.93\t2023-07-23 00:08:23.284483\nAAPL\t3.32\t2023-07-23 00:08:37.316292\nAAPL\t70.65\t2023-07-23 00:08:39.320826\nAAPL\t80.67\t2023-07-23 00:08:47.338378\nAAPL\t37.06\t2023-07-23 00:08:55.35357\nAAPL\t6.46\t2023-07-23 00:09:09.385044\nAAPL\t11.37\t2023-07-23 00:09:11.38963\nAAPL\t78.3\t2023-07-23 00:09:29.433845\nAAPL\t9.23\t2023-07-23 00:09:43.464851\nAAPL\t54.28\t2023-07-23 00:09:49.478733\nAAPL\t90.13\t2023-07-23 00:09:51.483273\nAAPL\t42.87\t2023-07-23 00:10:09.522183\nAAPL\t32.16\t2023-07-23 00:10:11.526596\nAAPL\t11.99\t2023-07-23 00:10:13.529392\nAAPL\t34.0\t2023-07-23 00:10:37.616249\nAAPL\t6.0\t2023-07-23 00:10:43.629825\nAAPL\t92.01\t2023-07-23 00:10:49.643199\nAAPL\t96.64\t2023-07-23 00:10:57.661374\nAAPL\t71.77\t2023-07-23 00:11:09.688538\nAAPL\t17.43\t2023-07-23 00:11:33.741834\nAAPL\t26.18\t2023-07-23 00:11:47.774168\nAAPL\t98.46\t2023-07-23 00:11:49.778687\nAAPL\t42.34\t2023-07-23 00:11:59.800865\nAAPL\t10.55\t2023-07-23 00:12:03.809876\nAAPL\t47.51\t2023-07-23 00:12:09.823203\nAAPL\t68.36\t2023-07-23 00:12:13.832173\nAAPL\t24.69\t2023-07-23 00:12:39.889312\nAAPL\t86.28\t2023-07-23 00:12:43.898428\nAAPL\t35.24\t2023-07-23 00:13:05.946029\nAAPL\t42.34\t2023-07-23 00:13:09.954973\nAAPL\t75.66\t2023-07-23 00:13:21.982512\nAAPL\t65.9\t2023-07-23 00:13:23.9876\nAAPL\t21.76\t2023-07-23 00:13:36.013583\nAAPL\t3.52\t2023-07-23 00:13:40.022958\nAAPL\t74.18\t2023-07-23 00:13:48.040817\nAAPL\t1.45\t2023-07-23 00:14:04.074937\nAAPL\t43.0\t2023-07-23 00:14:18.106857\nAAPL\t19.51\t2023-07-23 00:14:32.138267\nAAPL\t46.91\t2023-07-23 00:14:36.147211\nAAPL\t86.6\t2023-07-23 00:14:46.169373\nAAPL\t5.85\t2023-07-23 00:14:58.195875\nAAPL\t88.88\t2023-07-23 00:15:06.214016\nAMZN\t36.71\t2023-07-23 00:02:06.427414\nAMZN\t3.33\t2023-07-23 00:02:08.431874\nAMZN\t89.42\t2023-07-23 00:02:18.452696\nAMZN\t19.43\t2023-07-23 00:02:20.45741\nAMZN\t96.38\t2023-07-23 00:02:22.461809\nAMZN\t63.16\t2023-07-23 00:02:26.470839\nAMZN\t31.22\t2023-07-23 00:02:28.475298\nAMZN\t92.37\t2023-07-23 00:02:46.516288\nAMZN\t6.99\t2023-07-23 00:02:48.520739\nAMZN\t22.61\t2023-07-23 00:02:52.529655\nAMZN\t82.74\t2023-07-23 00:02:54.534103\nAMZN\t20.0\t2023-07-23 00:03:16.583409\nAMZN\t79.18\t2023-07-23 00:03:28.611047\nAMZN\t52.94\t2023-07-23 00:03:50.658937\nAMZN\t59.32\t2023-07-23 00:03:54.668288\nAMZN\t90.2\t2023-07-23 00:04:06.69522\nAMZN\t86.23\t2023-07-23 00:04:16.716114\nAMZN\t62.74\t2023-07-23 00:04:46.782514\nAMZN\t63.79\t2023-07-23 00:04:54.800564\nAMZN\t32.5\t2023-07-23 00:05:00.8134\nAMZN\t38.36\t2023-07-23 00:05:12.83963\nAMZN\t48.35\t2023-07-23 00:05:16.848584\nAMZN\t19.82\t2023-07-23 00:05:24.865681\nAMZN\t72.62\t2023-07-23 00:05:30.87911\nAMZN\t48.84\t2023-07-23 00:05:32.883568\nAMZN\t4.52\t2023-07-23 00:05:36.892485\nAMZN\t23.79\t2023-07-23 00:06:06.958573\nAMZN\t67.55\t2023-07-23 00:06:27.025375\nAMZN\t8.83\t2023-07-23 00:06:33.038233\nAMZN\t57.63\t2023-07-23 00:06:39.051666\nAMZN\t6.31\t2023-07-23 00:06:41.056083\nAMZN\t76.14\t2023-07-23 00:07:11.124027\nAMZN\t51.92\t2023-07-23 00:07:17.137517\nAMZN\t43.46\t2023-07-23 00:07:27.160223\nAMZN\t96.77\t2023-07-23 00:07:29.164738\nAMZN\t95.45\t2023-07-23 00:07:31.169305\nAMZN\t82.1\t2023-07-23 00:07:33.173714\nAMZN\t58.01\t2023-07-23 00:07:35.178148\nAMZN\t71.24\t2023-07-23 00:07:49.209453\nAMZN\t35.81\t2023-07-23 00:07:55.222842\nAMZN\t73.65\t2023-07-23 00:08:19.277189\nAMZN\t73.66\t2023-07-23 00:08:25.288996\nAMZN\t20.79\t2023-07-23 00:08:41.32539\nAMZN\t12.11\t2023-07-23 00:08:43.329418\nAMZN\t19.25\t2023-07-23 00:09:19.412564\nAMZN\t80.5\t2023-07-23 00:09:21.417039\nAMZN\t74.24\t2023-07-23 00:09:23.421378\nAMZN\t36.9\t2023-07-23 00:09:25.425398\nAMZN\t57.25\t2023-07-23 00:09:31.437217\nAMZN\t65.78\t2023-07-23 00:09:37.451159\nAMZN\t99.32\t2023-07-23 00:09:53.487824\nAMZN\t81.62\t2023-07-23 00:09:57.496633\nAMZN\t45.03\t2023-07-23 00:10:27.593698\nAMZN\t42.02\t2023-07-23 00:10:31.6028\nAMZN\t75.95\t2023-07-23 00:10:35.611742\nAMZN\t11.13\t2023-07-23 00:10:41.625351\nAMZN\t70.14\t2023-07-23 00:10:51.647752\nAMZN\t31.96\t2023-07-23 00:10:59.665401\nAMZN\t17.14\t2023-07-23 00:11:11.693071\nAMZN\t66.5\t2023-07-23 00:11:15.702391\nAMZN\t81.66\t2023-07-23 00:11:17.705405\nAMZN\t62.9\t2023-07-23 00:11:21.714213\nAMZN\t24.85\t2023-07-23 00:11:29.732923\nAMZN\t57.42\t2023-07-23 00:11:57.796399\nAMZN\t97.21\t2023-07-23 00:12:31.871415\nAMZN\t97.53\t2023-07-23 00:12:51.916366\nAMZN\t24.83\t2023-07-23 00:12:57.929398\nAMZN\t40.91\t2023-07-23 00:13:07.950548\nAMZN\t5.46\t2023-07-23 00:13:17.973596\nAMZN\t12.3\t2023-07-23 00:13:32.005279\nAMZN\t5.5\t2023-07-23 00:13:34.009378\nAMZN\t72.18\t2023-07-23 00:13:56.058337\nAMZN\t28.12\t2023-07-23 00:14:06.079359\nAMZN\t39.2\t2023-07-23 00:14:16.102284\nAMZN\t28.46\t2023-07-23 00:14:38.151602\nAMZN\t5.65\t2023-07-23 00:14:48.173398\nAMZN\t4.31\t2023-07-23 00:14:56.191157\nINTC\t77.72\t2023-07-23 00:02:24.466173\nINTC\t66.88\t2023-07-23 00:02:32.484169\nINTC\t72.52\t2023-07-23 00:02:36.493095\nINTC\t72.68\t2023-07-23 00:03:00.547536\nINTC\t23.36\t2023-07-23 00:03:04.556485\nINTC\t84.41\t2023-07-23 00:03:10.570082\nINTC\t20.68\t2023-07-23 00:03:14.578995\nINTC\t56.95\t2023-07-23 00:03:20.592654\nINTC\t45.27\t2023-07-23 00:03:30.615446\nINTC\t30.19\t2023-07-23 00:03:42.642484\nINTC\t30.16\t2023-07-23 00:03:44.645393\nINTC\t31.02\t2023-07-23 00:04:08.699583\nINTC\t71.9\t2023-07-23 00:04:36.75993\nINTC\t41.13\t2023-07-23 00:04:50.791599\nINTC\t23.21\t2023-07-23 00:04:56.804974\nINTC\t77.62\t2023-07-23 00:05:02.817897\nINTC\t16.33\t2023-07-23 00:05:06.826866\nINTC\t25.16\t2023-07-23 00:05:40.901351\nINTC\t13.52\t2023-07-23 00:05:44.910258\nINTC\t0.7\t2023-07-23 00:05:54.932545\nINTC\t61.77\t2023-07-23 00:06:02.949377\nINTC\t27.37\t2023-07-23 00:06:08.963007\nINTC\t7.97\t2023-07-23 00:06:55.088063\nINTC\t10.83\t2023-07-23 00:07:09.119596\nINTC\t75.55\t2023-07-23 00:07:21.146392\nINTC\t62.13\t2023-07-23 00:07:43.195998\nINTC\t43.23\t2023-07-23 00:07:45.200506\nINTC\t75.39\t2023-07-23 00:07:53.218338\nINTC\t37.83\t2023-07-23 00:07:57.227353\nINTC\t30.56\t2023-07-23 00:07:59.231814\nINTC\t47.83\t2023-07-23 00:08:05.24529\nINTC\t65.01\t2023-07-23 00:08:31.302419\nINTC\t80.51\t2023-07-23 00:08:35.311882\nINTC\t49.58\t2023-07-23 00:08:51.345421\nINTC\t41.62\t2023-07-23 00:09:01.367014\nINTC\t95.21\t2023-07-23 00:09:03.371542\nINTC\t83.33\t2023-07-23 00:09:17.40742\nINTC\t71.01\t2023-07-23 00:09:59.501016\nINTC\t97.19\t2023-07-23 00:10:01.505568\nINTC\t33.23\t2023-07-23 00:10:03.510168\nINTC\t56.32\t2023-07-23 00:10:23.584671\nINTC\t53.44\t2023-07-23 00:10:25.589225\nINTC\t92.15\t2023-07-23 00:10:29.598175\nINTC\t11.39\t2023-07-23 00:10:47.63881\nINTC\t41.74\t2023-07-23 00:11:07.683668\nINTC\t35.48\t2023-07-23 00:11:25.723987\nINTC\t38.64\t2023-07-23 00:11:27.728435\nINTC\t14.82\t2023-07-23 00:11:35.746284\nINTC\t61.74\t2023-07-23 00:11:41.760602\nINTC\t53.56\t2023-07-23 00:11:45.769751\nINTC\t38.05\t2023-07-23 00:11:51.783159\nINTC\t72.95\t2023-07-23 00:12:05.814306\nINTC\t51.81\t2023-07-23 00:12:21.848054\nINTC\t84.04\t2023-07-23 00:12:27.862368\nINTC\t41.7\t2023-07-23 00:12:33.875875\nINTC\t87.12\t2023-07-23 00:12:41.893736\nINTC\t95.17\t2023-07-23 00:12:49.911856\nINTC\t11.56\t2023-07-23 00:12:59.932407\nINTC\t70.0\t2023-07-23 00:13:11.95966\nINTC\t75.5\t2023-07-23 00:13:19.978031\nINTC\t96.72\t2023-07-23 00:13:25.992008\nINTC\t76.28\t2023-07-23 00:13:38.018421\nINTC\t89.12\t2023-07-23 00:13:42.027331\nINTC\t32.41\t2023-07-23 00:13:44.03181\nINTC\t44.54\t2023-07-23 00:13:50.045319\nINTC\t41.96\t2023-07-23 00:14:20.111189\nINTC\t99.15\t2023-07-23 00:14:22.115709\nINTC\t71.31\t2023-07-23 00:14:28.129377\nINTC\t42.38\t2023-07-23 00:14:30.133786\nINTC\t38.66\t2023-07-23 00:14:40.156086\nINTC\t58.9\t2023-07-23 00:14:42.160483\nINTC\t98.26\t2023-07-23 00:14:44.164891\nINTC\t17.74\t2023-07-23 00:14:52.182228\nINTC\t67.45\t2023-07-23 00:14:54.186686\nINTC\t12.37\t2023-07-23 00:15:04.209327\nMSFT\t61.3\t2023-07-23 00:02:30.479721\nMSFT\t10.1\t2023-07-23 00:02:38.497911\nMSFT\t22.19\t2023-07-23 00:02:50.525163\nMSFT\t86.79\t2023-07-23 00:03:08.565583\nMSFT\t35.86\t2023-07-23 00:03:22.597118\nMSFT\t16.82\t2023-07-23 00:03:24.601613\nMSFT\t56.77\t2023-07-23 00:03:26.606621\nMSFT\t62.6\t2023-07-23 00:04:18.720774\nMSFT\t57.76\t2023-07-23 00:04:24.733811\nMSFT\t97.93\t2023-07-23 00:04:28.741915\nMSFT\t96.68\t2023-07-23 00:04:34.755321\nMSFT\t92.35\t2023-07-23 00:04:38.764377\nMSFT\t49.09\t2023-07-23 00:04:44.777992\nMSFT\t75.81\t2023-07-23 00:04:58.809451\nMSFT\t26.22\t2023-07-23 00:05:10.83512\nMSFT\t51.25\t2023-07-23 00:05:14.844227\nMSFT\t15.28\t2023-07-23 00:05:28.874611\nMSFT\t64.18\t2023-07-23 00:05:34.888034\nMSFT\t11.97\t2023-07-23 00:05:38.896919\nMSFT\t13.23\t2023-07-23 00:05:48.919119\nMSFT\t86.11\t2023-07-23 00:06:04.954158\nMSFT\t82.14\t2023-07-23 00:06:23.017289\nMSFT\t59.81\t2023-07-23 00:06:25.021723\nMSFT\t56.63\t2023-07-23 00:06:35.042712\nMSFT\t67.16\t2023-07-23 00:06:51.07879\nMSFT\t85.33\t2023-07-23 00:06:59.096983\nMSFT\t4.86\t2023-07-23 00:07:01.10155\nMSFT\t54.88\t2023-07-23 00:07:13.128505\nMSFT\t69.92\t2023-07-23 00:07:19.141958\nMSFT\t79.11\t2023-07-23 00:07:25.155822\nMSFT\t75.47\t2023-07-23 00:07:37.182674\nMSFT\t16.19\t2023-07-23 00:07:51.213852\nMSFT\t53.55\t2023-07-23 00:08:29.297817\nMSFT\t53.43\t2023-07-23 00:08:49.342881\nMSFT\t31.3\t2023-07-23 00:08:53.349916\nMSFT\t50.93\t2023-07-23 00:08:57.358101\nMSFT\t62.06\t2023-07-23 00:08:59.36251\nMSFT\t17.94\t2023-07-23 00:09:05.37607\nMSFT\t33.04\t2023-07-23 00:09:07.380579\nMSFT\t96.77\t2023-07-23 00:09:13.394141\nMSFT\t62.74\t2023-07-23 00:09:35.4465\nMSFT\t22.2\t2023-07-23 00:09:39.455679\nMSFT\t30.86\t2023-07-23 00:09:41.460187\nMSFT\t6.07\t2023-07-23 00:09:47.474301\nMSFT\t84.61\t2023-07-23 00:09:55.492258\nMSFT\t9.24\t2023-07-23 00:10:05.513423\nMSFT\t56.31\t2023-07-23 00:10:07.517772\nMSFT\t57.38\t2023-07-23 00:10:17.536334\nMSFT\t21.21\t2023-07-23 00:10:21.545297\nMSFT\t73.72\t2023-07-23 00:10:33.607298\nMSFT\t4.95\t2023-07-23 00:10:55.656938\nMSFT\t45.84\t2023-07-23 00:11:13.697672\nMSFT\t5.04\t2023-07-23 00:11:31.737419\nMSFT\t44.4\t2023-07-23 00:11:43.76517\nMSFT\t19.75\t2023-07-23 00:11:53.787577\nMSFT\t40.6\t2023-07-23 00:12:01.805377\nMSFT\t97.92\t2023-07-23 00:12:11.827711\nMSFT\t29.94\t2023-07-23 00:12:17.841171\nMSFT\t98.36\t2023-07-23 00:12:19.843579\nMSFT\t91.64\t2023-07-23 00:12:23.853514\nMSFT\t89.95\t2023-07-23 00:12:45.902974\nMSFT\t67.39\t2023-07-23 00:12:47.90739\nMSFT\t42.98\t2023-07-23 00:12:53.920945\nMSFT\t37.07\t2023-07-23 00:12:55.925412\nMSFT\t87.89\t2023-07-23 00:13:01.936929\nMSFT\t85.17\t2023-07-23 00:13:27.99643\nMSFT\t20.48\t2023-07-23 00:13:52.049386\nMSFT\t9.77\t2023-07-23 00:14:00.06595\nMSFT\t89.23\t2023-07-23 00:14:34.142735\nMSFT\t75.48\t2023-07-23 00:15:00.200303\nMSFT\t17.88\t2023-07-23 00:15:02.204837\nTBV\t79.49\t2023-07-23 00:02:02.418284\nTBV\t42.45\t2023-07-23 00:02:12.440903\nTBV\t74.56\t2023-07-23 00:02:14.445382\nTBV\t48.25\t2023-07-23 00:02:16.449378\nTBV\t25.93\t2023-07-23 00:02:34.488575\nTBV\t76.65\t2023-07-23 00:02:40.502474\nTBV\t68.84\t2023-07-23 00:02:44.511809\nTBV\t8.35\t2023-07-23 00:03:02.551992\nTBV\t56.64\t2023-07-23 00:03:06.561053\nTBV\t17.97\t2023-07-23 00:03:18.588285\nTBV\t48.73\t2023-07-23 00:03:32.619911\nTBV\t93.71\t2023-07-23 00:03:34.624411\nTBV\t51.85\t2023-07-23 00:03:36.628881\nTBV\t74.23\t2023-07-23 00:03:56.672699\nTBV\t31.24\t2023-07-23 00:04:02.68623\nTBV\t21.38\t2023-07-23 00:04:12.708437\nTBV\t85.0\t2023-07-23 00:04:14.711508\nTBV\t60.11\t2023-07-23 00:04:22.729435\nTBV\t11.6\t2023-07-23 00:04:26.737383\nTBV\t40.67\t2023-07-23 00:04:30.746386\nTBV\t77.83\t2023-07-23 00:04:32.75082\nTBV\t78.59\t2023-07-23 00:04:42.773473\nTBV\t42.67\t2023-07-23 00:05:08.8314\nTBV\t8.4\t2023-07-23 00:05:22.861382\nTBV\t76.56\t2023-07-23 00:05:26.870178\nTBV\t2.27\t2023-07-23 00:05:46.914738\nTBV\t91.51\t2023-07-23 00:05:50.923738\nTBV\t97.73\t2023-07-23 00:05:52.928165\nTBV\t28.17\t2023-07-23 00:06:00.945403\nTBV\t46.91\t2023-07-23 00:06:12.995068\nTBV\t45.17\t2023-07-23 00:06:14.999566\nTBV\t10.77\t2023-07-23 00:06:21.012883\nTBV\t84.06\t2023-07-23 00:06:43.060585\nTBV\t17.35\t2023-07-23 00:06:45.065143\nTBV\t37.54\t2023-07-23 00:06:53.083469\nTBV\t25.85\t2023-07-23 00:07:15.133073\nTBV\t79.15\t2023-07-23 00:07:23.151409\nTBV\t47.05\t2023-07-23 00:07:39.187148\nTBV\t25.72\t2023-07-23 00:07:41.1916\nTBV\t44.71\t2023-07-23 00:08:03.240756\nTBV\t65.58\t2023-07-23 00:08:11.258903\nTBV\t89.07\t2023-07-23 00:08:13.263396\nTBV\t84.52\t2023-07-23 00:08:17.272532\nTBV\t52.24\t2023-07-23 00:08:21.281383\nTBV\t44.32\t2023-07-23 00:08:27.293462\nTBV\t86.29\t2023-07-23 00:08:33.307226\nTBV\t14.24\t2023-07-23 00:08:45.333922\nTBV\t81.25\t2023-07-23 00:09:15.402868\nTBV\t91.61\t2023-07-23 00:09:27.4294\nTBV\t82.47\t2023-07-23 00:09:33.441721\nTBV\t31.7\t2023-07-23 00:09:45.469538\nTBV\t27.89\t2023-07-23 00:10:15.533395\nTBV\t53.97\t2023-07-23 00:10:19.540896\nTBV\t45.51\t2023-07-23 00:10:39.620932\nTBV\t27.36\t2023-07-23 00:10:45.634341\nTBV\t67.63\t2023-07-23 00:10:53.652427\nTBV\t58.26\t2023-07-23 00:11:01.670143\nTBV\t24.37\t2023-07-23 00:11:03.674655\nTBV\t66.95\t2023-07-23 00:11:05.6792\nTBV\t21.0\t2023-07-23 00:11:19.709831\nTBV\t88.99\t2023-07-23 00:11:23.719542\nTBV\t69.54\t2023-07-23 00:11:37.750719\nTBV\t80.81\t2023-07-23 00:11:39.755203\nTBV\t0.41\t2023-07-23 00:11:55.792\nTBV\t1.7\t2023-07-23 00:12:07.818754\nTBV\t18.25\t2023-07-23 00:12:15.836771\nTBV\t93.51\t2023-07-23 00:12:25.857943\nTBV\t4.79\t2023-07-23 00:12:29.866856\nTBV\t56.47\t2023-07-23 00:12:35.880431\nTBV\t12.28\t2023-07-23 00:12:37.884879\nTBV\t20.54\t2023-07-23 00:13:03.941521\nTBV\t51.77\t2023-07-23 00:13:13.964505\nTBV\t87.5\t2023-07-23 00:13:15.969045\nTBV\t91.89\t2023-07-23 00:13:30.000887\nTBV\t88.6\t2023-07-23 00:13:46.036275\nTBV\t85.55\t2023-07-23 00:13:54.05385\nTBV\t4.43\t2023-07-23 00:13:58.061551\nTBV\t82.15\t2023-07-23 00:14:02.07058\nTBV\t12.55\t2023-07-23 00:14:08.083804\nTBV\t63.05\t2023-07-23 00:14:10.088268\nTBV\t41.49\t2023-07-23 00:14:12.092986\nTBV\t13.25\t2023-07-23 00:14:14.097891\nTBV\t48.31\t2023-07-23 00:14:24.120142\nTBV\t2.31\t2023-07-23 00:14:26.124992\nTBV\t31.04\t2023-07-23 00:14:50.177815\n"
+          },
+          {
+            "type": "TEXT",
+            "data": "Fail to run sql command: SELECT * FROM stock_table\n"
+          },
+          {
+            "type": "ANGULAR",
+            "data": "<div class='container ng-scope' style='padding-left:0px;padding-right:0px;'>\n    <div class='panel panel-danger'>\n        <div class='panel-heading' ng-click='isOpen=!isOpen' ng-init='isOpen=false' style=\"cursor:pointer\">\n            <div class='plainTextContainer' style='font-weight:bolder'><i class=\"fa fa-caret-right fa-fw\" style=\"padding-right:7px;transition:all 0.3s;{{isOpen?'transform:rotate(90deg);transform-origin:25% 45%':''}}\"></i>Job was cancelled.</div>\n        </div>\n        <div class='panel-collapse' uib-collapse='!isOpen'>\n            <div class='text' style='max-height:300px;overflow:auto;padding:10px'>java.io.IOException: Fail to run stream sql job\n\tat org.apache.zeppelin.flink.sql.AbstractStreamSqlJob.run(AbstractStreamSqlJob.java:172)\n\tat org.apache.zeppelin.flink.sql.AbstractStreamSqlJob.run(AbstractStreamSqlJob.java:105)\n\tat org.apache.zeppelin.flink.FlinkStreamSqlInterpreter.callInnerSelect(FlinkStreamSqlInterpreter.java:89)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.callSelect(FlinkSqlInterrpeter.java:503)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.callCommand(FlinkSqlInterrpeter.java:266)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.runSqlList(FlinkSqlInterrpeter.java:160)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.internalInterpret(FlinkSqlInterrpeter.java:112)\n\tat org.apache.zeppelin.interpreter.AbstractInterpreter.interpret(AbstractInterpreter.java:47)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:110)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:852)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:744)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:132)\n\tat org.apache.zeppelin.scheduler.ParallelScheduler.lambda$runJobInScheduler$0(ParallelScheduler.java:46)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: java.util.concurrent.ExecutionException: org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: b88248a4ead9a594545ab48433f8179b)\n\tat java.base/java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:395)\n\tat java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:1999)\n\tat org.apache.flink.streaming.api.environment.StreamExecutionEnvironment.execute(StreamExecutionEnvironment.java:1719)\n\tat org.apache.flink.table.planner.delegation.ExecutorBase.execute(ExecutorBase.java:52)\n\tat org.apache.flink.table.api.internal.TableEnvironmentImpl.execute(TableEnvironmentImpl.java:1214)\n\tat org.apache.zeppelin.flink.sql.AbstractStreamSqlJob.run(AbstractStreamSqlJob.java:161)\n\t... 16 more\nCaused by: org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: b88248a4ead9a594545ab48433f8179b)\n\tat org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$getJobExecutionResult$6(ClusterClientJobClientAdapter.java:116)\n\tat java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:642)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2073)\n\tat org.apache.flink.client.program.rest.RestClusterClient.lambda$pollResourceAsync$22(RestClusterClient.java:602)\n\tat java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:859)\n\tat java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:837)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2073)\n\tat org.apache.flink.runtime.concurrent.FutureUtils.lambda$retryOperationWithDelay$8(FutureUtils.java:309)\n\tat java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:859)\n\tat java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:837)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.postFire(CompletableFuture.java:610)\n\tat java.base/java.util.concurrent.CompletableFuture$UniCompose.tryFire(CompletableFuture.java:1085)\n\tat java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:478)\n\t... 3 more\nCaused by: org.apache.flink.runtime.client.JobCancellationException: Job was cancelled.\n\tat org.apache.flink.runtime.jobmaster.JobResult.toJobExecutionResult(JobResult.java:149)\n\tat org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$getJobExecutionResult$6(ClusterClientJobClientAdapter.java:114)\n\t... 18 more\n</div>\n        </div>\n    </div>\n</div>\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md \n## Tumbling Window",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-22T23:57:47+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Tumbling Window</h2>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690070254514_764706654",
+      "id": "paragraph_1690070254514_764706654",
+      "dateCreated": "2023-07-22T23:57:34+0000",
+      "dateStarted": "2023-07-22T23:57:47+0000",
+      "dateFinished": "2023-07-22T23:57:47+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:290"
+    },
+    {
+      "text": "%flink.ssql(type=update)\nSELECT\n        stock_table.ticker as ticker,\n        AVG(stock_table.price) AS avg_price,\n        TUMBLE_ROWTIME(stock_table.event_time, INTERVAL '10' second) as time_event\nFROM stock_table\nGROUP BY TUMBLE(stock_table.event_time, INTERVAL '10' second), stock_table.ticker;",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:02:06+0000",
       "progress": 0,
       "config": {
         "editorSetting": {
@@ -74,34 +345,87 @@
           "group": "flink",
           "values": [
             {
-              "jobUrl": "/flinkdashboard/#/job/5f970c9a90360e963c0d93697a26c1db",
-              "$$hashKey": "object:10987"
+              "jobUrl": "/flinkdashboard/#/job/ad0ae6114ca862eb16beb8d0066ef9f7",
+              "$$hashKey": "object:14588"
             }
           ],
           "interpreterSettingId": "flink"
         }
       },
       "progressUpdateIntervalMs": 500,
-      "jobName": "paragraph_1690036197020_1384337588",
-      "id": "paragraph_1690036197020_1384337588",
-      "dateCreated": "2023-07-22T14:29:57+0000",
-      "dateStarted": "2023-07-22T15:07:08+0000",
-      "dateFinished": "2023-07-22T15:06:52+0000",
-      "status": "RUNNING",
-      "$$hashKey": "object:10808",
+      "jobName": "paragraph_1690038757338_272278629",
+      "id": "paragraph_1690038757338_272278629",
+      "dateCreated": "2023-07-22T15:12:37+0000",
+      "dateStarted": "2023-07-23T00:02:07+0000",
+      "dateFinished": "2023-07-23T00:15:05+0000",
+      "status": "ABORT",
+      "$$hashKey": "object:291",
       "results": {
+        "code": "ERROR",
         "msg": [
           {
-            "data": "ticker\tprice\tevent_time\nAAPL\t50.73\t2023-07-22T15:07:20.341845\nAAPL\t89.42\t2023-07-22T15:07:24.356584\nAAPL\t5.55\t2023-07-22T15:07:33.386971\nAAPL\t23.93\t2023-07-22T15:07:34.390788\nAAPL\t23.07\t2023-07-22T15:07:39.407995\nAAPL\t55.28\t2023-07-22T15:07:50.446457\nAAPL\t31.35\t2023-07-22T15:08:01.483528\nAAPL\t58.88\t2023-07-22T15:08:09.511756\nAAPL\t93.15\t2023-07-22T15:08:14.528854\nAAPL\t63.98\t2023-07-22T15:08:21.554055\nAAPL\t58.39\t2023-07-22T15:08:25.568552\nAAPL\t78.54\t2023-07-22T15:08:39.616962\nAAPL\t3.67\t2023-07-22T15:08:46.641420\nAAPL\t30.03\t2023-07-22T15:08:49.651801\nAAPL\t38.48\t2023-07-22T15:09:06.710972\nAAPL\t77.65\t2023-07-22T15:09:07.714444\nAAPL\t62.21\t2023-07-22T15:09:12.731677\nAAPL\t15.54\t2023-07-22T15:09:13.735140\nAAPL\t30.26\t2023-07-22T15:09:14.738681\nAAPL\t65.42\t2023-07-22T15:09:20.759332\nAAPL\t78.23\t2023-07-22T15:09:26.780313\nAAPL\t69.54\t2023-07-22T15:09:34.808560\nAAPL\t66.15\t2023-07-22T15:09:36.815543\nAAPL\t49.62\t2023-07-22T15:09:41.832024\nAAPL\t91.05\t2023-07-22T15:09:44.844244\nAAPL\t76.71\t2023-07-22T15:09:46.851288\nAAPL\t25.05\t2023-07-22T15:09:48.858162\nAAPL\t81.29\t2023-07-22T15:09:53.873380\nAAPL\t23.92\t2023-07-22T15:09:54.877105\nAAPL\t25.79\t2023-07-22T15:10:00.895034\nAAPL\t29.89\t2023-07-22T15:10:11.930454\nAAPL\t96.61\t2023-07-22T15:10:13.938465\nAAPL\t87.12\t2023-07-22T15:10:14.941385\nAAPL\t30.6\t2023-07-22T15:10:15.944782\nAAPL\t9.96\t2023-07-22T15:10:28.990049\nAAPL\t29.34\t2023-07-22T15:10:29.994224\nAAPL\t95.36\t2023-07-22T15:10:35.011223\nAAPL\t33.65\t2023-07-22T15:10:38.021392\nAAPL\t78.44\t2023-07-22T15:10:39.024635\nAAPL\t14.15\t2023-07-22T15:10:41.031457\nAAPL\t63.96\t2023-07-22T15:10:42.034964\nAAPL\t12.04\t2023-07-22T15:10:44.041814\nAAPL\t61.31\t2023-07-22T15:10:46.048914\nAAPL\t11.58\t2023-07-22T15:10:48.055561\nAAPL\t19.1\t2023-07-22T15:10:55.077374\nAAPL\t25.74\t2023-07-22T15:11:00.093404\nAAPL\t75.44\t2023-07-22T15:11:06.114005\nAAPL\t28.55\t2023-07-22T15:11:13.137369\nAAPL\t34.51\t2023-07-22T15:11:18.154754\nAAPL\t3.27\t2023-07-22T15:11:22.169437\nAAPL\t26.12\t2023-07-22T15:11:24.178795\nAAPL\t28.91\t2023-07-22T15:11:29.197564\nAAPL\t29.53\t2023-07-22T15:11:31.204593\nAAPL\t46.97\t2023-07-22T15:11:33.211388\nAAPL\t25.02\t2023-07-22T15:11:39.232877\nAAPL\t72.12\t2023-07-22T15:11:56.292655\nAAPL\t47.82\t2023-07-22T15:12:04.321042\nAAPL\t30.73\t2023-07-22T15:12:06.328148\nAAPL\t69.7\t2023-07-22T15:12:10.341622\nAAPL\t93.82\t2023-07-22T15:12:11.344924\nAAPL\t18.98\t2023-07-22T15:12:12.348387\nAAPL\t61.68\t2023-07-22T15:12:17.365266\nAAPL\t40.33\t2023-07-22T15:12:18.368658\nAAPL\t24.64\t2023-07-22T15:12:21.378839\nAAPL\t36.81\t2023-07-22T15:12:23.386888\nAAPL\t99.5\t2023-07-22T15:12:24.390342\nAAPL\t39.72\t2023-07-22T15:12:28.403779\nAAPL\t17.32\t2023-07-22T15:12:35.428078\nAAPL\t68.51\t2023-07-22T15:12:36.431386\nAAPL\t17.38\t2023-07-22T15:12:42.451855\nAAPL\t4.62\t2023-07-22T15:12:44.458734\nAAPL\t2.28\t2023-07-22T15:12:52.486407\nAAPL\t89.35\t2023-07-22T15:12:53.489817\nAAPL\t65.95\t2023-07-22T15:12:57.503389\nAAPL\t84.25\t2023-07-22T15:13:02.520483\nAAPL\t66.35\t2023-07-22T15:13:16.568310\nAAPL\t79.87\t2023-07-22T15:13:24.597819\nAMZN\t51.17\t2023-07-22T15:07:22.349460\nAMZN\t78.17\t2023-07-22T15:07:23.353289\nAMZN\t69.36\t2023-07-22T15:07:27.367478\nAMZN\t64.95\t2023-07-22T15:07:30.376838\nAMZN\t32.02\t2023-07-22T15:07:42.418871\nAMZN\t78.92\t2023-07-22T15:07:43.422208\nAMZN\t7.93\t2023-07-22T15:07:45.429026\nAMZN\t52.74\t2023-07-22T15:07:46.432636\nAMZN\t27.28\t2023-07-22T15:07:51.449977\nAMZN\t76.11\t2023-07-22T15:07:53.455792\nAMZN\t70.28\t2023-07-22T15:07:58.472998\nAMZN\t19.56\t2023-07-22T15:08:03.490540\nAMZN\t23.92\t2023-07-22T15:08:06.501247\nAMZN\t39.78\t2023-07-22T15:08:07.504693\nAMZN\t5.5\t2023-07-22T15:08:10.515012\nAMZN\t25.88\t2023-07-22T15:08:19.547027\nAMZN\t29.26\t2023-07-22T15:08:20.550606\nAMZN\t80.09\t2023-07-22T15:08:24.565227\nAMZN\t9.78\t2023-07-22T15:08:26.571956\nAMZN\t57.74\t2023-07-22T15:08:28.579031\nAMZN\t35.3\t2023-07-22T15:08:29.582505\nAMZN\t40.95\t2023-07-22T15:08:31.589287\nAMZN\t58.01\t2023-07-22T15:08:40.620583\nAMZN\t19.29\t2023-07-22T15:08:42.627545\nAMZN\t28.69\t2023-07-22T15:08:43.630956\nAMZN\t72.67\t2023-07-22T15:08:44.634374\nAMZN\t21.41\t2023-07-22T15:08:53.666213\nAMZN\t85.71\t2023-07-22T15:08:55.673088\nAMZN\t60.25\t2023-07-22T15:09:03.700215\nAMZN\t4.32\t2023-07-22T15:09:24.773497\nAMZN\t91.43\t2023-07-22T15:09:27.783714\nAMZN\t54.21\t2023-07-22T15:09:31.797980\nAMZN\t63.85\t2023-07-22T15:09:35.812178\nAMZN\t32.55\t2023-07-22T15:09:40.828872\nAMZN\t78.53\t2023-07-22T15:09:59.892319\nAMZN\t1.52\t2023-07-22T15:10:01.898490\nAMZN\t23.32\t2023-07-22T15:10:03.905028\nAMZN\t95.33\t2023-07-22T15:10:04.908314\nAMZN\t61.99\t2023-07-22T15:10:16.948247\nAMZN\t85.86\t2023-07-22T15:10:21.964325\nAMZN\t79.81\t2023-07-22T15:10:22.968611\nAMZN\t6.32\t2023-07-22T15:10:23.972157\nAMZN\t92.92\t2023-07-22T15:10:25.979742\nAMZN\t83.38\t2023-07-22T15:10:34.007682\nAMZN\t14.4\t2023-07-22T15:10:37.018029\nAMZN\t24.5\t2023-07-22T15:10:40.028069\nAMZN\t77.34\t2023-07-22T15:10:52.068031\nAMZN\t3.29\t2023-07-22T15:10:57.084195\nAMZN\t32.85\t2023-07-22T15:11:04.107258\nAMZN\t35.7\t2023-07-22T15:11:05.110711\nAMZN\t10.52\t2023-07-22T15:11:10.127309\nAMZN\t2.14\t2023-07-22T15:11:17.151341\nAMZN\t32.05\t2023-07-22T15:11:27.190533\nAMZN\t74.25\t2023-07-22T15:11:34.215034\nAMZN\t18.99\t2023-07-22T15:11:36.222547\nAMZN\t55.23\t2023-07-22T15:11:38.229647\nAMZN\t13.13\t2023-07-22T15:11:40.236321\nAMZN\t73.67\t2023-07-22T15:11:41.239621\nAMZN\t0.9\t2023-07-22T15:11:45.253576\nAMZN\t7.97\t2023-07-22T15:11:58.300188\nAMZN\t90.33\t2023-07-22T15:11:59.304195\nAMZN\t62.38\t2023-07-22T15:12:03.317840\nAMZN\t93.06\t2023-07-22T15:12:19.372070\nAMZN\t37.79\t2023-07-22T15:12:20.375406\nAMZN\t86.28\t2023-07-22T15:12:27.400331\nAMZN\t19.47\t2023-07-22T15:12:30.410907\nAMZN\t82.88\t2023-07-22T15:12:33.421244\nAMZN\t41.26\t2023-07-22T15:12:37.434873\nAMZN\t85.98\t2023-07-22T15:12:41.448320\nAMZN\t1.84\t2023-07-22T15:12:43.455139\nAMZN\t40.81\t2023-07-22T15:12:48.472557\nAMZN\t48.82\t2023-07-22T15:12:51.482859\nAMZN\t17.45\t2023-07-22T15:12:55.496479\nAMZN\t65.42\t2023-07-22T15:12:58.507023\nAMZN\t38.72\t2023-07-22T15:13:03.523986\nAMZN\t38.25\t2023-07-22T15:13:15.564993\nAMZN\t86.21\t2023-07-22T15:13:20.582615\nAMZN\t57.78\t2023-07-22T15:13:26.604793\nAMZN\t8.41\t2023-07-22T15:13:27.608676\nINTC\t97.51\t2023-07-22T15:07:28.370930\nINTC\t15.03\t2023-07-22T15:07:36.397689\nINTC\t20.45\t2023-07-22T15:07:38.404561\nINTC\t31.77\t2023-07-22T15:07:47.436301\nINTC\t16.95\t2023-07-22T15:07:55.462560\nINTC\t48.19\t2023-07-22T15:07:59.476488\nINTC\t10.19\t2023-07-22T15:08:11.518374\nINTC\t29.83\t2023-07-22T15:08:15.532357\nINTC\t0.26\t2023-07-22T15:08:32.592867\nINTC\t43.92\t2023-07-22T15:08:33.596409\nINTC\t15.27\t2023-07-22T15:08:34.599858\nINTC\t80.87\t2023-07-22T15:08:35.603433\nINTC\t10.56\t2023-07-22T15:08:38.613388\nINTC\t67.18\t2023-07-22T15:08:41.624151\nINTC\t85.56\t2023-07-22T15:08:47.644991\nINTC\t52.33\t2023-07-22T15:08:48.648265\nINTC\t46.43\t2023-07-22T15:09:01.693401\nINTC\t96.37\t2023-07-22T15:09:11.728361\nINTC\t48.05\t2023-07-22T15:09:16.745345\nINTC\t52.51\t2023-07-22T15:09:18.752384\nINTC\t55.6\t2023-07-22T15:09:19.755838\nINTC\t74.66\t2023-07-22T15:09:21.762845\nINTC\t26.18\t2023-07-22T15:09:28.787097\nINTC\t34.6\t2023-07-22T15:09:38.822241\nINTC\t78.85\t2023-07-22T15:09:42.837265\nINTC\t59.68\t2023-07-22T15:09:43.840858\nINTC\t86.3\t2023-07-22T15:09:45.847810\nINTC\t51.8\t2023-07-22T15:09:47.854871\nINTC\t35.23\t2023-07-22T15:09:51.867814\nINTC\t39.42\t2023-07-22T15:10:08.921674\nINTC\t92.59\t2023-07-22T15:10:09.924283\nINTC\t80.3\t2023-07-22T15:10:12.933410\nINTC\t3.8\t2023-07-22T15:10:24.976063\nINTC\t25.67\t2023-07-22T15:10:26.983154\nINTC\t76.41\t2023-07-22T15:10:27.986618\nINTC\t8.3\t2023-07-22T15:10:32.000695\nINTC\t37.58\t2023-07-22T15:10:36.014627\nINTC\t97.99\t2023-07-22T15:10:43.038497\nINTC\t68.53\t2023-07-22T15:10:45.045501\nINTC\t37.6\t2023-07-22T15:10:58.087665\nINTC\t37.83\t2023-07-22T15:11:12.134069\nINTC\t80.54\t2023-07-22T15:11:25.183438\nINTC\t30.21\t2023-07-22T15:11:35.218759\nINTC\t28.3\t2023-07-22T15:11:42.242971\nINTC\t36.7\t2023-07-22T15:11:47.260434\nINTC\t65.27\t2023-07-22T15:11:54.285702\nINTC\t58.66\t2023-07-22T15:11:55.289043\nINTC\t96.48\t2023-07-22T15:12:00.307583\nINTC\t47.39\t2023-07-22T15:12:01.310979\nINTC\t81.69\t2023-07-22T15:12:14.355194\nINTC\t97.92\t2023-07-22T15:12:16.362007\nINTC\t52.14\t2023-07-22T15:12:22.383040\nINTC\t27.93\t2023-07-22T15:12:25.394442\nINTC\t79.11\t2023-07-22T15:12:46.465593\nINTC\t75.74\t2023-07-22T15:12:59.510348\nINTC\t99.32\t2023-07-22T15:13:08.541156\nINTC\t4.93\t2023-07-22T15:13:09.544316\nINTC\t78.16\t2023-07-22T15:13:13.558143\nINTC\t48.73\t2023-07-22T15:13:14.561567\nINTC\t62.48\t2023-07-22T15:13:17.571727\nINTC\t57.63\t2023-07-22T15:13:19.579341\nINTC\t61.08\t2023-07-22T15:13:21.585997\nMSFT\t90.91\t2023-07-22T15:07:19.338415\nMSFT\t12.77\t2023-07-22T15:07:21.345262\nMSFT\t19.21\t2023-07-22T15:07:26.364013\nMSFT\t71.38\t2023-07-22T15:07:35.394134\nMSFT\t48.57\t2023-07-22T15:07:41.415064\nMSFT\t42.33\t2023-07-22T15:07:49.443086\nMSFT\t56.72\t2023-07-22T15:07:56.465892\nMSFT\t57.16\t2023-07-22T15:07:57.469351\nMSFT\t14.29\t2023-07-22T15:08:00.480215\nMSFT\t77.19\t2023-07-22T15:08:02.486972\nMSFT\t85.06\t2023-07-22T15:08:08.508279\nMSFT\t17.11\t2023-07-22T15:08:18.543228\nMSFT\t92.2\t2023-07-22T15:08:22.558365\nMSFT\t4.99\t2023-07-22T15:08:23.561863\nMSFT\t52.1\t2023-07-22T15:08:30.585930\nMSFT\t31.82\t2023-07-22T15:08:36.606824\nMSFT\t60.65\t2023-07-22T15:08:45.637984\nMSFT\t91.66\t2023-07-22T15:08:50.655352\nMSFT\t3.41\t2023-07-22T15:08:51.659177\nMSFT\t36.93\t2023-07-22T15:09:00.690048\nMSFT\t60.82\t2023-07-22T15:09:02.696768\nMSFT\t8.06\t2023-07-22T15:09:04.703652\nMSFT\t58.05\t2023-07-22T15:09:10.724763\nMSFT\t95.15\t2023-07-22T15:09:15.742057\nMSFT\t97.37\t2023-07-22T15:09:17.748914\nMSFT\t62.83\t2023-07-22T15:09:22.766648\nMSFT\t63.93\t2023-07-22T15:09:30.794520\nMSFT\t97.77\t2023-07-22T15:09:37.819008\nMSFT\t76.75\t2023-07-22T15:09:39.825636\nMSFT\t51.07\t2023-07-22T15:09:50.864378\nMSFT\t75.39\t2023-07-22T15:09:52.870676\nMSFT\t7.86\t2023-07-22T15:09:55.879645\nMSFT\t67.88\t2023-07-22T15:09:56.882884\nMSFT\t53.95\t2023-07-22T15:09:57.886173\nMSFT\t27.59\t2023-07-22T15:09:58.888850\nMSFT\t85.41\t2023-07-22T15:10:10.927456\nMSFT\t9.07\t2023-07-22T15:10:20.960776\nMSFT\t52.48\t2023-07-22T15:10:30.997394\nMSFT\t12.38\t2023-07-22T15:10:47.052224\nMSFT\t9.19\t2023-07-22T15:10:51.064697\nMSFT\t23.24\t2023-07-22T15:10:53.071504\nMSFT\t43.03\t2023-07-22T15:11:01.096977\nMSFT\t88.18\t2023-07-22T15:11:02.100503\nMSFT\t82.46\t2023-07-22T15:11:08.120522\nMSFT\t67.91\t2023-07-22T15:11:11.130633\nMSFT\t94.4\t2023-07-22T15:11:16.147979\nMSFT\t30.27\t2023-07-22T15:11:20.161677\nMSFT\t84.69\t2023-07-22T15:11:21.165192\nMSFT\t21.12\t2023-07-22T15:11:28.194024\nMSFT\t17.53\t2023-07-22T15:11:32.208049\nMSFT\t43.63\t2023-07-22T15:11:46.256881\nMSFT\t65.86\t2023-07-22T15:11:50.270583\nMSFT\t13.28\t2023-07-22T15:11:51.273945\nMSFT\t75.94\t2023-07-22T15:11:53.280745\nMSFT\t64.0\t2023-07-22T15:11:57.296214\nMSFT\t81.45\t2023-07-22T15:12:02.314224\nMSFT\t37.23\t2023-07-22T15:12:05.324610\nMSFT\t57.13\t2023-07-22T15:12:07.331451\nMSFT\t28.65\t2023-07-22T15:12:15.358554\nMSFT\t38.38\t2023-07-22T15:12:31.414463\nMSFT\t26.03\t2023-07-22T15:12:47.469129\nMSFT\t60.82\t2023-07-22T15:12:49.476120\nMSFT\t91.83\t2023-07-22T15:12:56.499965\nMSFT\t6.39\t2023-07-22T15:13:04.527391\nMSFT\t94.41\t2023-07-22T15:13:05.530879\nMSFT\t78.98\t2023-07-22T15:13:06.534547\nMSFT\t27.7\t2023-07-22T15:13:18.575164\nMSFT\t96.51\t2023-07-22T15:13:28.612387\nTBV\t64.56\t2023-07-22T15:07:25.360651\nTBV\t35.14\t2023-07-22T15:07:29.373391\nTBV\t94.01\t2023-07-22T15:07:31.380115\nTBV\t27.51\t2023-07-22T15:07:32.383511\nTBV\t65.61\t2023-07-22T15:07:37.401296\nTBV\t26.6\t2023-07-22T15:07:40.411587\nTBV\t77.24\t2023-07-22T15:07:44.425652\nTBV\t8.97\t2023-07-22T15:07:48.439587\nTBV\t59.3\t2023-07-22T15:07:52.453436\nTBV\t69.61\t2023-07-22T15:07:54.459202\nTBV\t62.62\t2023-07-22T15:08:04.493978\nTBV\t71.76\t2023-07-22T15:08:05.497590\nTBV\t71.79\t2023-07-22T15:08:12.522083\nTBV\t17.98\t2023-07-22T15:08:13.525413\nTBV\t72.47\t2023-07-22T15:08:16.535867\nTBV\t75.18\t2023-07-22T15:08:17.539270\nTBV\t22.22\t2023-07-22T15:08:27.575514\nTBV\t93.51\t2023-07-22T15:08:37.610287\nTBV\t74.98\t2023-07-22T15:08:52.662664\nTBV\t42.68\t2023-07-22T15:08:54.669585\nTBV\t84.98\t2023-07-22T15:08:56.676425\nTBV\t77.71\t2023-07-22T15:08:57.680090\nTBV\t65.1\t2023-07-22T15:08:58.683404\nTBV\t65.52\t2023-07-22T15:08:59.686851\nTBV\t59.08\t2023-07-22T15:09:05.707416\nTBV\t63.9\t2023-07-22T15:09:08.717830\nTBV\t28.28\t2023-07-22T15:09:09.721400\nTBV\t65.31\t2023-07-22T15:09:23.770028\nTBV\t99.91\t2023-07-22T15:09:25.777045\nTBV\t55.95\t2023-07-22T15:09:29.791187\nTBV\t64.81\t2023-07-22T15:09:32.801659\nTBV\t80.35\t2023-07-22T15:09:33.805153\nTBV\t41.53\t2023-07-22T15:09:49.861730\nTBV\t3.06\t2023-07-22T15:10:02.902067\nTBV\t48.78\t2023-07-22T15:10:05.911343\nTBV\t59.63\t2023-07-22T15:10:06.914631\nTBV\t10.66\t2023-07-22T15:10:07.918156\nTBV\t20.03\t2023-07-22T15:10:17.951681\nTBV\t34.71\t2023-07-22T15:10:18.954949\nTBV\t85.73\t2023-07-22T15:10:19.957384\nTBV\t89.92\t2023-07-22T15:10:33.004156\nTBV\t70.27\t2023-07-22T15:10:49.058819\nTBV\t99.34\t2023-07-22T15:10:50.061376\nTBV\t22.25\t2023-07-22T15:10:54.074787\nTBV\t18.42\t2023-07-22T15:10:56.080713\nTBV\t5.89\t2023-07-22T15:10:59.090897\nTBV\t14.25\t2023-07-22T15:11:03.103947\nTBV\t95.93\t2023-07-22T15:11:07.117217\nTBV\t4.88\t2023-07-22T15:11:09.123973\nTBV\t67.89\t2023-07-22T15:11:14.140964\nTBV\t39.91\t2023-07-22T15:11:15.144509\nTBV\t80.81\t2023-07-22T15:11:19.158428\nTBV\t36.84\t2023-07-22T15:11:23.175433\nTBV\t80.63\t2023-07-22T15:11:26.186842\nTBV\t16.41\t2023-07-22T15:11:30.200945\nTBV\t56.56\t2023-07-22T15:11:37.226102\nTBV\t78.38\t2023-07-22T15:11:43.246423\nTBV\t41.63\t2023-07-22T15:11:44.249858\nTBV\t31.8\t2023-07-22T15:11:48.263756\nTBV\t96.35\t2023-07-22T15:11:49.267214\nTBV\t22.2\t2023-07-22T15:11:52.277311\nTBV\t28.56\t2023-07-22T15:12:08.334859\nTBV\t18.2\t2023-07-22T15:12:09.338180\nTBV\t31.23\t2023-07-22T15:12:13.351836\nTBV\t98.96\t2023-07-22T15:12:26.398053\nTBV\t35.64\t2023-07-22T15:12:29.407436\nTBV\t44.91\t2023-07-22T15:12:32.417791\nTBV\t98.74\t2023-07-22T15:12:34.424633\nTBV\t36.43\t2023-07-22T15:12:38.438268\nTBV\t71.6\t2023-07-22T15:12:39.441660\nTBV\t5.7\t2023-07-22T15:12:40.444972\nTBV\t12.45\t2023-07-22T15:12:45.462185\nTBV\t42.7\t2023-07-22T15:12:50.479394\nTBV\t81.71\t2023-07-22T15:12:54.493133\nTBV\t86.25\t2023-07-22T15:13:00.513678\nTBV\t71.39\t2023-07-22T15:13:01.517104\nTBV\t66.32\t2023-07-22T15:13:07.537911\nTBV\t77.64\t2023-07-22T15:13:10.547742\nTBV\t46.27\t2023-07-22T15:13:11.551221\nTBV\t16.2\t2023-07-22T15:13:12.554562\nTBV\t64.38\t2023-07-22T15:13:22.590522\nTBV\t27.62\t2023-07-22T15:13:23.594047\nTBV\t90.91\t2023-07-22T15:13:25.601229\n",
-            "type": "TABLE"
+            "type": "TABLE",
+            "data": "ticker\tavg_price\ttime_event\nAAPL\t10.63\t2023-07-23 00:02:49.999\nAAPL\t45.89\t2023-07-23 00:02:59.999\nAAPL\t47.41\t2023-07-23 00:03:19.999\nAAPL\t67.08\t2023-07-23 00:03:39.999\nAAPL\t36.403333333333336\t2023-07-23 00:03:49.999\nAAPL\t5.01\t2023-07-23 00:03:59.999\nAAPL\t72.55\t2023-07-23 00:04:09.999\nAAPL\t70.06\t2023-07-23 00:04:19.999\nAAPL\t47.55\t2023-07-23 00:04:29.999\nAAPL\t76.44500000000001\t2023-07-23 00:04:49.999\nAAPL\t12.53\t2023-07-23 00:04:59.999\nAAPL\t19.17\t2023-07-23 00:05:09.999\nAAPL\t34.06\t2023-07-23 00:05:19.999\nAAPL\t50.45\t2023-07-23 00:05:29.999\nAAPL\t68.77\t2023-07-23 00:05:49.999\nAAPL\t29.300000000000004\t2023-07-23 00:05:59.999\nAAPL\t72.35000000000001\t2023-07-23 00:06:19.999\nAAPL\t36.32\t2023-07-23 00:06:29.999\nAAPL\t44.349999999999994\t2023-07-23 00:06:39.999\nAAPL\t20.4\t2023-07-23 00:06:49.999\nAAPL\t6.29\t2023-07-23 00:06:59.999\nAAPL\t61.98\t2023-07-23 00:07:09.999\nAAPL\t40.28\t2023-07-23 00:07:49.999\nAAPL\t59.69\t2023-07-23 00:08:09.999\nAAPL\t84.4\t2023-07-23 00:08:19.999\nAAPL\t64.93\t2023-07-23 00:08:29.999\nAAPL\t36.985\t2023-07-23 00:08:39.999\nAAPL\t80.67\t2023-07-23 00:08:49.999\nAAPL\t37.06\t2023-07-23 00:08:59.999\nAAPL\t6.46\t2023-07-23 00:09:09.999\nAAPL\t11.37\t2023-07-23 00:09:19.999\nAAPL\t78.3\t2023-07-23 00:09:29.999\nAAPL\t31.755000000000003\t2023-07-23 00:09:49.999\nAAPL\t90.13\t2023-07-23 00:09:59.999\nAAPL\t42.87\t2023-07-23 00:10:09.999\nAAPL\t22.075\t2023-07-23 00:10:19.999\nAAPL\t34.0\t2023-07-23 00:10:39.999\nAAPL\t49.005\t2023-07-23 00:10:49.999\nAAPL\t96.64\t2023-07-23 00:10:59.999\nAAPL\t71.77\t2023-07-23 00:11:09.999\nAAPL\t17.43\t2023-07-23 00:11:39.999\nAAPL\t62.31999999999999\t2023-07-23 00:11:49.999\nAAPL\t42.34\t2023-07-23 00:11:59.999\nAAPL\t29.03\t2023-07-23 00:12:09.999\nAAPL\t68.36\t2023-07-23 00:12:19.999\nAAPL\t24.69\t2023-07-23 00:12:39.999\nAAPL\t86.28\t2023-07-23 00:12:49.999\nAAPL\t38.790000000000006\t2023-07-23 00:13:09.999\nAAPL\t70.78\t2023-07-23 00:13:29.999\nAAPL\t21.76\t2023-07-23 00:13:39.999\nAAPL\t38.85\t2023-07-23 00:13:49.999\nAAPL\t1.45\t2023-07-23 00:14:09.999\nAAPL\t43.0\t2023-07-23 00:14:19.999\nAAPL\t33.21\t2023-07-23 00:14:39.999\nAAPL\t86.6\t2023-07-23 00:14:49.999\nAMZN\t89.42\t2023-07-23 00:02:19.999\nAMZN\t52.5475\t2023-07-23 00:02:29.999\nAMZN\t49.68\t2023-07-23 00:02:49.999\nAMZN\t52.675\t2023-07-23 00:02:59.999\nAMZN\t20.0\t2023-07-23 00:03:19.999\nAMZN\t79.18\t2023-07-23 00:03:29.999\nAMZN\t56.129999999999995\t2023-07-23 00:03:59.999\nAMZN\t90.2\t2023-07-23 00:04:09.999\nAMZN\t86.23\t2023-07-23 00:04:19.999\nAMZN\t62.74\t2023-07-23 00:04:49.999\nAMZN\t63.79\t2023-07-23 00:04:59.999\nAMZN\t32.5\t2023-07-23 00:05:09.999\nAMZN\t43.355000000000004\t2023-07-23 00:05:19.999\nAMZN\t19.82\t2023-07-23 00:05:29.999\nAMZN\t41.99333333333333\t2023-07-23 00:05:39.999\nAMZN\t23.79\t2023-07-23 00:06:09.999\nAMZN\t67.55\t2023-07-23 00:06:29.999\nAMZN\t33.230000000000004\t2023-07-23 00:06:39.999\nAMZN\t6.31\t2023-07-23 00:06:49.999\nAMZN\t64.03\t2023-07-23 00:07:19.999\nAMZN\t70.115\t2023-07-23 00:07:29.999\nAMZN\t78.52\t2023-07-23 00:07:39.999\nAMZN\t71.24\t2023-07-23 00:07:49.999\nAMZN\t35.81\t2023-07-23 00:07:59.999\nAMZN\t73.65\t2023-07-23 00:08:19.999\nAMZN\t73.66\t2023-07-23 00:08:29.999\nAMZN\t16.45\t2023-07-23 00:08:49.999\nAMZN\t19.25\t2023-07-23 00:09:19.999\nAMZN\t63.88\t2023-07-23 00:09:29.999\nAMZN\t61.515\t2023-07-23 00:09:39.999\nAMZN\t90.47\t2023-07-23 00:09:59.999\nAMZN\t45.03\t2023-07-23 00:10:29.999\nAMZN\t58.985\t2023-07-23 00:10:39.999\nAMZN\t11.13\t2023-07-23 00:10:49.999\nAMZN\t51.05\t2023-07-23 00:10:59.999\nAMZN\t55.1\t2023-07-23 00:11:19.999\nAMZN\t43.875\t2023-07-23 00:11:29.999\nAMZN\t57.42\t2023-07-23 00:11:59.999\nAMZN\t97.21\t2023-07-23 00:12:39.999\nAMZN\t61.18\t2023-07-23 00:12:59.999\nAMZN\t40.91\t2023-07-23 00:13:09.999\nAMZN\t5.46\t2023-07-23 00:13:19.999\nAMZN\t8.9\t2023-07-23 00:13:39.999\nAMZN\t72.18\t2023-07-23 00:13:59.999\nAMZN\t28.12\t2023-07-23 00:14:09.999\nAMZN\t39.2\t2023-07-23 00:14:19.999\nAMZN\t28.46\t2023-07-23 00:14:39.999\nAMZN\t5.65\t2023-07-23 00:14:49.999\nINTC\t77.72\t2023-07-23 00:02:29.999\nINTC\t69.69999999999999\t2023-07-23 00:02:39.999\nINTC\t48.02\t2023-07-23 00:03:09.999\nINTC\t52.545\t2023-07-23 00:03:19.999\nINTC\t56.95\t2023-07-23 00:03:29.999\nINTC\t45.27\t2023-07-23 00:03:39.999\nINTC\t30.175\t2023-07-23 00:03:49.999\nINTC\t31.02\t2023-07-23 00:04:09.999\nINTC\t71.9\t2023-07-23 00:04:39.999\nINTC\t32.17\t2023-07-23 00:04:59.999\nINTC\t46.975\t2023-07-23 00:05:09.999\nINTC\t19.34\t2023-07-23 00:05:49.999\nINTC\t0.7\t2023-07-23 00:05:59.999\nINTC\t44.57\t2023-07-23 00:06:09.999\nINTC\t7.97\t2023-07-23 00:06:59.999\nINTC\t10.83\t2023-07-23 00:07:09.999\nINTC\t75.55\t2023-07-23 00:07:29.999\nINTC\t52.68\t2023-07-23 00:07:49.999\nINTC\t47.92666666666667\t2023-07-23 00:07:59.999\nINTC\t47.83\t2023-07-23 00:08:09.999\nINTC\t72.76\t2023-07-23 00:08:39.999\nINTC\t49.58\t2023-07-23 00:08:59.999\nINTC\t68.41499999999999\t2023-07-23 00:09:09.999\nINTC\t83.33\t2023-07-23 00:09:19.999\nINTC\t71.01\t2023-07-23 00:09:59.999\nINTC\t65.21\t2023-07-23 00:10:09.999\nINTC\t67.30333333333333\t2023-07-23 00:10:29.999\nINTC\t11.39\t2023-07-23 00:10:49.999\nINTC\t41.74\t2023-07-23 00:11:09.999\nINTC\t37.06\t2023-07-23 00:11:29.999\nINTC\t14.82\t2023-07-23 00:11:39.999\nINTC\t57.650000000000006\t2023-07-23 00:11:49.999\nINTC\t38.05\t2023-07-23 00:11:59.999\nINTC\t72.95\t2023-07-23 00:12:09.999\nINTC\t67.92500000000001\t2023-07-23 00:12:29.999\nINTC\t41.7\t2023-07-23 00:12:39.999\nINTC\t91.14500000000001\t2023-07-23 00:12:49.999\nINTC\t11.56\t2023-07-23 00:12:59.999\nINTC\t72.75\t2023-07-23 00:13:19.999\nINTC\t96.72\t2023-07-23 00:13:29.999\nINTC\t76.28\t2023-07-23 00:13:39.999\nINTC\t60.765\t2023-07-23 00:13:49.999\nINTC\t44.54\t2023-07-23 00:13:59.999\nINTC\t70.80666666666667\t2023-07-23 00:14:29.999\nINTC\t42.38\t2023-07-23 00:14:39.999\nINTC\t65.27333333333333\t2023-07-23 00:14:49.999\nMSFT\t35.699999999999996\t2023-07-23 00:02:39.999\nMSFT\t22.19\t2023-07-23 00:02:59.999\nMSFT\t86.79\t2023-07-23 00:03:09.999\nMSFT\t36.483333333333334\t2023-07-23 00:03:29.999\nMSFT\t62.6\t2023-07-23 00:04:19.999\nMSFT\t77.845\t2023-07-23 00:04:29.999\nMSFT\t94.515\t2023-07-23 00:04:39.999\nMSFT\t49.09\t2023-07-23 00:04:49.999\nMSFT\t75.81\t2023-07-23 00:04:59.999\nMSFT\t38.735\t2023-07-23 00:05:19.999\nMSFT\t15.28\t2023-07-23 00:05:29.999\nMSFT\t38.075\t2023-07-23 00:05:39.999\nMSFT\t13.23\t2023-07-23 00:05:49.999\nMSFT\t86.11\t2023-07-23 00:06:09.999\nMSFT\t70.975\t2023-07-23 00:06:29.999\nMSFT\t56.63\t2023-07-23 00:06:39.999\nMSFT\t76.245\t2023-07-23 00:06:59.999\nMSFT\t4.86\t2023-07-23 00:07:09.999\nMSFT\t62.400000000000006\t2023-07-23 00:07:19.999\nMSFT\t79.11\t2023-07-23 00:07:29.999\nMSFT\t75.47\t2023-07-23 00:07:39.999\nMSFT\t16.19\t2023-07-23 00:07:59.999\nMSFT\t53.55\t2023-07-23 00:08:29.999\nMSFT\t53.43\t2023-07-23 00:08:49.999\nMSFT\t48.09666666666667\t2023-07-23 00:08:59.999\nMSFT\t25.490000000000002\t2023-07-23 00:09:09.999\nMSFT\t96.77\t2023-07-23 00:09:19.999\nMSFT\t42.47\t2023-07-23 00:09:39.999\nMSFT\t18.465\t2023-07-23 00:09:49.999\nMSFT\t84.61\t2023-07-23 00:09:59.999\nMSFT\t32.775\t2023-07-23 00:10:09.999\nMSFT\t57.38\t2023-07-23 00:10:19.999\nMSFT\t21.21\t2023-07-23 00:10:29.999\nMSFT\t73.72\t2023-07-23 00:10:39.999\nMSFT\t4.95\t2023-07-23 00:10:59.999\nMSFT\t45.84\t2023-07-23 00:11:19.999\nMSFT\t5.04\t2023-07-23 00:11:39.999\nMSFT\t44.4\t2023-07-23 00:11:49.999\nMSFT\t19.75\t2023-07-23 00:11:59.999\nMSFT\t40.6\t2023-07-23 00:12:09.999\nMSFT\t75.40666666666667\t2023-07-23 00:12:19.999\nMSFT\t91.64\t2023-07-23 00:12:29.999\nMSFT\t78.67\t2023-07-23 00:12:49.999\nMSFT\t40.025\t2023-07-23 00:12:59.999\nMSFT\t87.89\t2023-07-23 00:13:09.999\nMSFT\t85.17\t2023-07-23 00:13:29.999\nMSFT\t20.48\t2023-07-23 00:13:59.999\nMSFT\t9.77\t2023-07-23 00:14:09.999\nMSFT\t89.23\t2023-07-23 00:14:39.999\nTBV\t25.93\t2023-07-23 00:02:39.999\nTBV\t72.745\t2023-07-23 00:02:49.999\nTBV\t32.495\t2023-07-23 00:03:09.999\nTBV\t17.97\t2023-07-23 00:03:19.999\nTBV\t64.76333333333334\t2023-07-23 00:03:39.999\nTBV\t74.23\t2023-07-23 00:03:59.999\nTBV\t31.24\t2023-07-23 00:04:09.999\nTBV\t53.19\t2023-07-23 00:04:19.999\nTBV\t35.855\t2023-07-23 00:04:29.999\nTBV\t59.25\t2023-07-23 00:04:39.999\nTBV\t78.59\t2023-07-23 00:04:49.999\nTBV\t42.67\t2023-07-23 00:05:09.999\nTBV\t42.480000000000004\t2023-07-23 00:05:29.999\nTBV\t2.27\t2023-07-23 00:05:49.999\nTBV\t94.62\t2023-07-23 00:05:59.999\nTBV\t28.17\t2023-07-23 00:06:09.999\nTBV\t46.04\t2023-07-23 00:06:19.999\nTBV\t10.77\t2023-07-23 00:06:29.999\nTBV\t50.705\t2023-07-23 00:06:49.999\nTBV\t37.54\t2023-07-23 00:06:59.999\nTBV\t25.85\t2023-07-23 00:07:19.999\nTBV\t79.15\t2023-07-23 00:07:29.999\nTBV\t47.05\t2023-07-23 00:07:39.999\nTBV\t25.72\t2023-07-23 00:07:49.999\nTBV\t44.71\t2023-07-23 00:08:09.999\nTBV\t79.72333333333331\t2023-07-23 00:08:19.999\nTBV\t48.28\t2023-07-23 00:08:29.999\nTBV\t86.29\t2023-07-23 00:08:39.999\nTBV\t14.24\t2023-07-23 00:08:49.999\nTBV\t81.25\t2023-07-23 00:09:19.999\nTBV\t91.61\t2023-07-23 00:09:29.999\nTBV\t82.47\t2023-07-23 00:09:39.999\nTBV\t31.7\t2023-07-23 00:09:49.999\nTBV\t40.93\t2023-07-23 00:10:19.999\nTBV\t45.51\t2023-07-23 00:10:39.999\nTBV\t27.36\t2023-07-23 00:10:49.999\nTBV\t67.63\t2023-07-23 00:10:59.999\nTBV\t49.85999999999999\t2023-07-23 00:11:09.999\nTBV\t21.0\t2023-07-23 00:11:19.999\nTBV\t88.99\t2023-07-23 00:11:29.999\nTBV\t75.17500000000001\t2023-07-23 00:11:39.999\nTBV\t0.41\t2023-07-23 00:11:59.999\nTBV\t1.7\t2023-07-23 00:12:09.999\nTBV\t18.25\t2023-07-23 00:12:19.999\nTBV\t49.150000000000006\t2023-07-23 00:12:29.999\nTBV\t34.375\t2023-07-23 00:12:39.999\nTBV\t20.54\t2023-07-23 00:13:09.999\nTBV\t69.635\t2023-07-23 00:13:19.999\nTBV\t91.89\t2023-07-23 00:13:39.999\nTBV\t88.6\t2023-07-23 00:13:49.999\nTBV\t44.989999999999995\t2023-07-23 00:13:59.999\nTBV\t47.35\t2023-07-23 00:14:09.999\nTBV\t39.26333333333333\t2023-07-23 00:14:19.999\nTBV\t25.310000000000002\t2023-07-23 00:14:29.999\n"
+          },
+          {
+            "type": "TEXT",
+            "data": "Fail to run sql command: SELECT\n        stock_table.ticker as ticker,\n        AVG(stock_table.price) AS avg_price,\n        TUMBLE_ROWTIME(stock_table.event_time, INTERVAL '10' second) as time_event\nFROM stock_table\nGROUP BY TUMBLE(stock_table.event_time, INTERVAL '10' second), stock_table.ticker\n"
+          },
+          {
+            "type": "ANGULAR",
+            "data": "<div class='container ng-scope' style='padding-left:0px;padding-right:0px;'>\n    <div class='panel panel-danger'>\n        <div class='panel-heading' ng-click='isOpen=!isOpen' ng-init='isOpen=false' style=\"cursor:pointer\">\n            <div class='plainTextContainer' style='font-weight:bolder'><i class=\"fa fa-caret-right fa-fw\" style=\"padding-right:7px;transition:all 0.3s;{{isOpen?'transform:rotate(90deg);transform-origin:25% 45%':''}}\"></i>Job was cancelled.</div>\n        </div>\n        <div class='panel-collapse' uib-collapse='!isOpen'>\n            <div class='text' style='max-height:300px;overflow:auto;padding:10px'>java.io.IOException: Fail to run stream sql job\n\tat org.apache.zeppelin.flink.sql.AbstractStreamSqlJob.run(AbstractStreamSqlJob.java:172)\n\tat org.apache.zeppelin.flink.sql.AbstractStreamSqlJob.run(AbstractStreamSqlJob.java:105)\n\tat org.apache.zeppelin.flink.FlinkStreamSqlInterpreter.callInnerSelect(FlinkStreamSqlInterpreter.java:89)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.callSelect(FlinkSqlInterrpeter.java:503)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.callCommand(FlinkSqlInterrpeter.java:266)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.runSqlList(FlinkSqlInterrpeter.java:160)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.internalInterpret(FlinkSqlInterrpeter.java:112)\n\tat org.apache.zeppelin.interpreter.AbstractInterpreter.interpret(AbstractInterpreter.java:47)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:110)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:852)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:744)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:132)\n\tat org.apache.zeppelin.scheduler.ParallelScheduler.lambda$runJobInScheduler$0(ParallelScheduler.java:46)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: java.util.concurrent.ExecutionException: org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: ad0ae6114ca862eb16beb8d0066ef9f7)\n\tat java.base/java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:395)\n\tat java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:1999)\n\tat org.apache.flink.streaming.api.environment.StreamExecutionEnvironment.execute(StreamExecutionEnvironment.java:1719)\n\tat org.apache.flink.table.planner.delegation.ExecutorBase.execute(ExecutorBase.java:52)\n\tat org.apache.flink.table.api.internal.TableEnvironmentImpl.execute(TableEnvironmentImpl.java:1214)\n\tat org.apache.zeppelin.flink.sql.AbstractStreamSqlJob.run(AbstractStreamSqlJob.java:161)\n\t... 16 more\nCaused by: org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: ad0ae6114ca862eb16beb8d0066ef9f7)\n\tat org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$getJobExecutionResult$6(ClusterClientJobClientAdapter.java:116)\n\tat java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:642)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2073)\n\tat org.apache.flink.client.program.rest.RestClusterClient.lambda$pollResourceAsync$22(RestClusterClient.java:602)\n\tat java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:859)\n\tat java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:837)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2073)\n\tat org.apache.flink.runtime.concurrent.FutureUtils.lambda$retryOperationWithDelay$8(FutureUtils.java:309)\n\tat java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:859)\n\tat java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:837)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.postFire(CompletableFuture.java:610)\n\tat java.base/java.util.concurrent.CompletableFuture$UniCompose.tryFire(CompletableFuture.java:1085)\n\tat java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:478)\n\t... 3 more\nCaused by: org.apache.flink.runtime.client.JobCancellationException: Job was cancelled.\n\tat org.apache.flink.runtime.jobmaster.JobResult.toJobExecutionResult(JobResult.java:149)\n\tat org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$getJobExecutionResult$6(ClusterClientJobClientAdapter.java:114)\n\t... 18 more\n</div>\n        </div>\n    </div>\n</div>\n"
           }
         ]
       }
     },
     {
-      "text": "%flink.ssql(type=update)\nSELECT * FROM stock_stream",
+      "text": "%md \n## Slidding Window",
       "user": "anonymous",
-      "dateUpdated": "2023-07-22T15:12:37+0000",
+      "dateUpdated": "2023-07-22T23:58:00+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Slidding Window</h2>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690070270246_2137534037",
+      "id": "paragraph_1690070270246_2137534037",
+      "dateCreated": "2023-07-22T23:57:50+0000",
+      "dateStarted": "2023-07-22T23:58:00+0000",
+      "dateFinished": "2023-07-22T23:58:00+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:292"
+    },
+    {
+      "text": "%flink.ssql(type=update)\nSELECT\n    stock_table.ticker as ticker,\n    AVG(stock_table.price) AS avg_price,\n    HOP_ROWTIME(stock_table.event_time, INTERVAL '10' second, INTERVAL '1' minute) as hop_time\nFROM stock_table\nGROUP BY HOP(stock_table.event_time, INTERVAL '10' second, INTERVAL '1' minute), stock_table.ticker;",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:03:05+0000",
       "progress": 0,
       "config": {
         "editorSetting": {
@@ -112,7 +436,7 @@
         },
         "colWidth": 12,
         "editorMode": "ace/mode/sql",
-        "fontSize": 9,
+        "fontSize": 12,
         "results": {},
         "enabled": true
       },
@@ -129,33 +453,435 @@
           "group": "flink",
           "values": [
             {
-              "jobUrl": "/flinkdashboard/#/job/5618fcbc934337537d07419dad38c4b6",
-              "$$hashKey": "object:11040"
+              "jobUrl": "/flinkdashboard/#/job/719998c7fbeb6d0692d96efa63e67d5c",
+              "$$hashKey": "object:14507"
             }
           ],
           "interpreterSettingId": "flink"
         }
       },
       "progressUpdateIntervalMs": 500,
-      "jobName": "paragraph_1690038152062_13520110",
-      "id": "paragraph_1690038152062_13520110",
-      "dateCreated": "2023-07-22T15:02:32+0000",
-      "dateStarted": "2023-07-22T15:12:37+0000",
-      "status": "RUNNING",
-      "$$hashKey": "object:10809",
+      "jobName": "paragraph_1690070280821_2038385440",
+      "id": "paragraph_1690070280821_2038385440",
+      "dateCreated": "2023-07-22T23:58:00+0000",
+      "dateStarted": "2023-07-23T00:03:05+0000",
+      "status": "ABORT",
+      "$$hashKey": "object:293",
       "results": {
+        "code": "ERROR",
         "msg": [
           {
-            "data": "ticker\tprice\tevent_time\nAAPL\t2.28\t2023-07-22T15:12:52.486407\nAAPL\t89.35\t2023-07-22T15:12:53.489817\nAAPL\t65.95\t2023-07-22T15:12:57.503389\nAAPL\t84.25\t2023-07-22T15:13:02.520483\nAAPL\t66.35\t2023-07-22T15:13:16.568310\nAAPL\t79.87\t2023-07-22T15:13:24.597819\nAAPL\t55.18\t2023-07-22T15:13:30.619543\nAMZN\t40.81\t2023-07-22T15:12:48.472557\nAMZN\t48.82\t2023-07-22T15:12:51.482859\nAMZN\t17.45\t2023-07-22T15:12:55.496479\nAMZN\t65.42\t2023-07-22T15:12:58.507023\nAMZN\t38.72\t2023-07-22T15:13:03.523986\nAMZN\t38.25\t2023-07-22T15:13:15.564993\nAMZN\t86.21\t2023-07-22T15:13:20.582615\nAMZN\t57.78\t2023-07-22T15:13:26.604793\nAMZN\t8.41\t2023-07-22T15:13:27.608676\nINTC\t75.74\t2023-07-22T15:12:59.510348\nINTC\t99.32\t2023-07-22T15:13:08.541156\nINTC\t4.93\t2023-07-22T15:13:09.544316\nINTC\t78.16\t2023-07-22T15:13:13.558143\nINTC\t48.73\t2023-07-22T15:13:14.561567\nINTC\t62.48\t2023-07-22T15:13:17.571727\nINTC\t57.63\t2023-07-22T15:13:19.579341\nINTC\t61.08\t2023-07-22T15:13:21.585997\nINTC\t98.62\t2023-07-22T15:13:29.615798\nMSFT\t26.03\t2023-07-22T15:12:47.469129\nMSFT\t60.82\t2023-07-22T15:12:49.476120\nMSFT\t91.83\t2023-07-22T15:12:56.499965\nMSFT\t6.39\t2023-07-22T15:13:04.527391\nMSFT\t94.41\t2023-07-22T15:13:05.530879\nMSFT\t78.98\t2023-07-22T15:13:06.534547\nMSFT\t27.7\t2023-07-22T15:13:18.575164\nMSFT\t96.51\t2023-07-22T15:13:28.612387\nTBV\t42.7\t2023-07-22T15:12:50.479394\nTBV\t81.71\t2023-07-22T15:12:54.493133\nTBV\t86.25\t2023-07-22T15:13:00.513678\nTBV\t71.39\t2023-07-22T15:13:01.517104\nTBV\t66.32\t2023-07-22T15:13:07.537911\nTBV\t77.64\t2023-07-22T15:13:10.547742\nTBV\t46.27\t2023-07-22T15:13:11.551221\nTBV\t16.2\t2023-07-22T15:13:12.554562\nTBV\t64.38\t2023-07-22T15:13:22.590522\nTBV\t27.62\t2023-07-22T15:13:23.594047\nTBV\t90.91\t2023-07-22T15:13:25.601229\n",
-            "type": "TABLE"
+            "type": "TABLE",
+            "data": "ticker\tavg_price\thop_time\nAAPL\t67.08\t2023-07-23 00:03:39.999\nAAPL\t44.072500000000005\t2023-07-23 00:03:49.999\nAAPL\t31.051666666666673\t2023-07-23 00:03:59.999\nAAPL\t41.42625\t2023-07-23 00:04:09.999\nAAPL\t44.607777777777784\t2023-07-23 00:04:19.999\nAAPL\t44.902\t2023-07-23 00:04:29.999\nAAPL\t42.437777777777775\t2023-07-23 00:04:39.999\nAAPL\t53.2025\t2023-07-23 00:04:49.999\nAAPL\t61.16142857142857\t2023-07-23 00:04:59.999\nAAPL\t50.36666666666667\t2023-07-23 00:05:09.999\nAAPL\t44.36666666666667\t2023-07-23 00:05:19.999\nAAPL\t44.85\t2023-07-23 00:05:29.999\nAAPL\t44.85\t2023-07-23 00:05:39.999\nAAPL\t36.996\t2023-07-23 00:05:49.999\nAAPL\t38.50833333333333\t2023-07-23 00:05:59.999\nAAPL\t42.376\t2023-07-23 00:06:09.999\nAAPL\t56.410000000000004\t2023-07-23 00:06:19.999\nAAPL\t54.39142857142857\t2023-07-23 00:06:29.999\nAAPL\t52.16\t2023-07-23 00:06:39.999\nAAPL\t44.147000000000006\t2023-07-23 00:06:49.999\nAAPL\t43.24\t2023-07-23 00:06:59.999\nAAPL\t47.925000000000004\t2023-07-23 00:07:09.999\nAAPL\t39.78333333333333\t2023-07-23 00:07:19.999\nAAPL\t40.21625\t2023-07-23 00:07:29.999\nAAPL\t38.83833333333333\t2023-07-23 00:07:39.999\nAAPL\t46.501999999999995\t2023-07-23 00:07:49.999\nAAPL\t56.555\t2023-07-23 00:07:59.999\nAAPL\t54.8375\t2023-07-23 00:08:09.999\nAAPL\t60.75\t2023-07-23 00:08:19.999\nAAPL\t61.446666666666665\t2023-07-23 00:08:29.999\nAAPL\t55.33125\t2023-07-23 00:08:39.999\nAAPL\t60.38\t2023-07-23 00:08:49.999\nAAPL\t57.78888888888889\t2023-07-23 00:08:59.999\nAAPL\t49.64142857142857\t2023-07-23 00:09:09.999\nAAPL\t39.208571428571425\t2023-07-23 00:09:19.999\nAAPL\t41.11857142857143\t2023-07-23 00:09:29.999\nAAPL\t42.772000000000006\t2023-07-23 00:09:39.999\nAAPL\t32.78333333333333\t2023-07-23 00:09:49.999\nAAPL\t41.62833333333333\t2023-07-23 00:09:59.999\nAAPL\t47.696666666666665\t2023-07-23 00:10:09.999\nAAPL\t45.565714285714286\t2023-07-23 00:10:19.999\nAAPL\t40.11\t2023-07-23 00:10:29.999\nAAPL\t39.23714285714285\t2023-07-23 00:10:39.999\nAAPL\t44.16571428571429\t2023-07-23 00:10:49.999\nAAPL\t45.09571428571429\t2023-07-23 00:10:59.999\nAAPL\t49.22428571428571\t2023-07-23 00:11:09.999\nAAPL\t60.08399999999999\t2023-07-23 00:11:19.999\nAAPL\t60.08399999999999\t2023-07-23 00:11:29.999\nAAPL\t56.77\t2023-07-23 00:11:39.999\nAAPL\t62.096000000000004\t2023-07-23 00:11:49.999\nAAPL\t51.23599999999999\t2023-07-23 00:11:59.999\nAAPL\t40.41166666666667\t2023-07-23 00:12:09.999\nAAPL\t44.40428571428571\t2023-07-23 00:12:19.999\nAAPL\t44.40428571428571\t2023-07-23 00:12:29.999\nAAPL\t45.44142857142857\t2023-07-23 00:12:39.999\nAAPL\t46.62166666666667\t2023-07-23 00:12:49.999\nAAPL\t47.478\t2023-07-23 00:12:59.999\nAAPL\t51.38199999999999\t2023-07-23 00:13:09.999\nAAPL\t47.1375\t2023-07-23 00:13:19.999\nAAPL\t55.01833333333334\t2023-07-23 00:13:29.999\nAAPL\t54.53\t2023-07-23 00:13:39.999\nAAPL\t45.51428571428572\t2023-07-23 00:13:49.999\nAAPL\t45.51428571428572\t2023-07-23 00:13:59.999\nAAPL\t40.41166666666666\t2023-07-23 00:14:09.999\nAAPL\t40.78142857142857\t2023-07-23 00:14:19.999\nAAPL\t28.782000000000004\t2023-07-23 00:14:29.999\nAAPL\t31.42833333333333\t2023-07-23 00:14:39.999\nAAPL\t39.494\t2023-07-23 00:14:49.999\nAMZN\t79.18\t2023-07-23 00:03:29.999\nAMZN\t79.18\t2023-07-23 00:03:39.999\nAMZN\t79.18\t2023-07-23 00:03:49.999\nAMZN\t63.81333333333333\t2023-07-23 00:03:59.999\nAMZN\t70.41\t2023-07-23 00:04:09.999\nAMZN\t73.574\t2023-07-23 00:04:19.999\nAMZN\t72.1725\t2023-07-23 00:04:29.999\nAMZN\t72.1725\t2023-07-23 00:04:39.999\nAMZN\t70.286\t2023-07-23 00:04:49.999\nAMZN\t75.74000000000001\t2023-07-23 00:04:59.999\nAMZN\t61.315\t2023-07-23 00:05:09.999\nAMZN\t49.148\t2023-07-23 00:05:19.999\nAMZN\t44.26\t2023-07-23 00:05:29.999\nAMZN\t43.504444444444445\t2023-07-23 00:05:39.999\nAMZN\t41.1\t2023-07-23 00:05:49.999\nAMZN\t37.85857142857143\t2023-07-23 00:05:59.999\nAMZN\t36.614285714285714\t2023-07-23 00:06:09.999\nAMZN\t33.918\t2023-07-23 00:06:19.999\nAMZN\t43.464\t2023-07-23 00:06:29.999\nAMZN\t39.45\t2023-07-23 00:06:39.999\nAMZN\t32.822\t2023-07-23 00:06:49.999\nAMZN\t32.822\t2023-07-23 00:06:59.999\nAMZN\t35.08\t2023-07-23 00:07:09.999\nAMZN\t44.73\t2023-07-23 00:07:19.999\nAMZN\t48.722857142857144\t2023-07-23 00:07:29.999\nAMZN\t63.77\t2023-07-23 00:07:39.999\nAMZN\t71.88624999999999\t2023-07-23 00:07:49.999\nAMZN\t67.87777777777777\t2023-07-23 00:07:59.999\nAMZN\t67.87777777777777\t2023-07-23 00:08:09.999\nAMZN\t69.56125\t2023-07-23 00:08:19.999\nAMZN\t69.98857142857142\t2023-07-23 00:08:29.999\nAMZN\t63.589999999999996\t2023-07-23 00:08:39.999\nAMZN\t43.204\t2023-07-23 00:08:49.999\nAMZN\t45.0525\t2023-07-23 00:08:59.999\nAMZN\t45.0525\t2023-07-23 00:09:09.999\nAMZN\t31.4525\t2023-07-23 00:09:19.999\nAMZN\t40.63166666666667\t2023-07-23 00:09:29.999\nAMZN\t45.852500000000006\t2023-07-23 00:09:39.999\nAMZN\t55.653333333333336\t2023-07-23 00:09:49.999\nAMZN\t64.3575\t2023-07-23 00:09:59.999\nAMZN\t64.3575\t2023-07-23 00:10:09.999\nAMZN\t70.80142857142857\t2023-07-23 00:10:19.999\nAMZN\t69.8\t2023-07-23 00:10:29.999\nAMZN\t68.788\t2023-07-23 00:10:39.999\nAMZN\t59.178333333333335\t2023-07-23 00:10:49.999\nAMZN\t46.038333333333334\t2023-07-23 00:10:59.999\nAMZN\t46.038333333333334\t2023-07-23 00:11:09.999\nAMZN\t49.058888888888895\t2023-07-23 00:11:19.999\nAMZN\t48.425\t2023-07-23 00:11:29.999\nAMZN\t45.785\t2023-07-23 00:11:39.999\nAMZN\t50.73571428571428\t2023-07-23 00:11:49.999\nAMZN\t51.745000000000005\t2023-07-23 00:11:59.999\nAMZN\t51.745000000000005\t2023-07-23 00:12:09.999\nAMZN\t48.39000000000001\t2023-07-23 00:12:19.999\nAMZN\t57.42\t2023-07-23 00:12:29.999\nAMZN\t77.315\t2023-07-23 00:12:39.999\nAMZN\t77.315\t2023-07-23 00:12:49.999\nAMZN\t73.19\t2023-07-23 00:12:59.999\nAMZN\t65.12\t2023-07-23 00:13:09.999\nAMZN\t53.188\t2023-07-23 00:13:19.999\nAMZN\t53.188\t2023-07-23 00:13:29.999\nAMZN\t31.088333333333335\t2023-07-23 00:13:39.999\nAMZN\t31.088333333333335\t2023-07-23 00:13:49.999\nAMZN\t27.270000000000003\t2023-07-23 00:13:59.999\nAMZN\t24.712000000000003\t2023-07-23 00:14:09.999\nAMZN\t31.46\t2023-07-23 00:14:19.999\nAMZN\t31.46\t2023-07-23 00:14:29.999\nAMZN\t41.99\t2023-07-23 00:14:39.999\nAMZN\t34.722\t2023-07-23 00:14:49.999\nINTC\t56.95\t2023-07-23 00:03:29.999\nINTC\t51.11\t2023-07-23 00:03:39.999\nINTC\t40.6425\t2023-07-23 00:03:49.999\nINTC\t40.6425\t2023-07-23 00:03:59.999\nINTC\t38.718\t2023-07-23 00:04:09.999\nINTC\t38.718\t2023-07-23 00:04:19.999\nINTC\t34.160000000000004\t2023-07-23 00:04:29.999\nINTC\t40.8175\t2023-07-23 00:04:39.999\nINTC\t51.46\t2023-07-23 00:04:49.999\nINTC\t41.815\t2023-07-23 00:04:59.999\nINTC\t46.038\t2023-07-23 00:05:09.999\nINTC\t46.038\t2023-07-23 00:05:19.999\nINTC\t46.038\t2023-07-23 00:05:29.999\nINTC\t39.572500000000005\t2023-07-23 00:05:39.999\nINTC\t32.82833333333334\t2023-07-23 00:05:49.999\nINTC\t26.665999999999997\t2023-07-23 00:05:59.999\nINTC\t25.704\t2023-07-23 00:06:09.999\nINTC\t25.704\t2023-07-23 00:06:19.999\nINTC\t25.704\t2023-07-23 00:06:29.999\nINTC\t25.704\t2023-07-23 00:06:39.999\nINTC\t29.94666666666667\t2023-07-23 00:06:49.999\nINTC\t32.37\t2023-07-23 00:06:59.999\nINTC\t9.4\t2023-07-23 00:07:09.999\nINTC\t9.4\t2023-07-23 00:07:19.999\nINTC\t31.45\t2023-07-23 00:07:29.999\nINTC\t31.45\t2023-07-23 00:07:39.999\nINTC\t39.94199999999999\t2023-07-23 00:07:49.999\nINTC\t47.93142857142857\t2023-07-23 00:07:59.999\nINTC\t53.21714285714285\t2023-07-23 00:08:09.999\nINTC\t53.21714285714285\t2023-07-23 00:08:19.999\nINTC\t49.495\t2023-07-23 00:08:29.999\nINTC\t55.31125\t2023-07-23 00:08:39.999\nINTC\t56.18833333333333\t2023-07-23 00:08:49.999\nINTC\t60.7325\t2023-07-23 00:08:59.999\nINTC\t66.386\t2023-07-23 00:09:09.999\nINTC\t69.21\t2023-07-23 00:09:19.999\nINTC\t69.21\t2023-07-23 00:09:29.999\nINTC\t67.43499999999999\t2023-07-23 00:09:39.999\nINTC\t67.43499999999999\t2023-07-23 00:09:49.999\nINTC\t72.79249999999999\t2023-07-23 00:09:59.999\nINTC\t71.19\t2023-07-23 00:10:09.999\nINTC\t67.14333333333333\t2023-07-23 00:10:19.999\nINTC\t67.22333333333334\t2023-07-23 00:10:29.999\nINTC\t67.22333333333334\t2023-07-23 00:10:39.999\nINTC\t59.24714285714286\t2023-07-23 00:10:49.999\nINTC\t57.28666666666666\t2023-07-23 00:10:59.999\nINTC\t51.008\t2023-07-23 00:11:09.999\nINTC\t51.008\t2023-07-23 00:11:19.999\nINTC\t31.8125\t2023-07-23 00:11:29.999\nINTC\t28.413999999999998\t2023-07-23 00:11:39.999\nINTC\t40.99666666666667\t2023-07-23 00:11:49.999\nINTC\t40.57571428571429\t2023-07-23 00:11:59.999\nINTC\t45.034285714285716\t2023-07-23 00:12:09.999\nINTC\t45.034285714285716\t2023-07-23 00:12:19.999\nINTC\t53.85285714285715\t2023-07-23 00:12:29.999\nINTC\t57.69285714285714\t2023-07-23 00:12:39.999\nINTC\t67.26285714285714\t2023-07-23 00:12:49.999\nINTC\t63.478571428571435\t2023-07-23 00:12:59.999\nINTC\t61.900000000000006\t2023-07-23 00:13:09.999\nINTC\t64.61250000000001\t2023-07-23 00:13:19.999\nINTC\t68.25285714285714\t2023-07-23 00:13:29.999\nINTC\t73.19285714285715\t2023-07-23 00:13:39.999\nINTC\t64.51285714285714\t2023-07-23 00:13:49.999\nINTC\t69.22428571428571\t2023-07-23 00:13:59.999\nINTC\t69.22428571428571\t2023-07-23 00:14:09.999\nINTC\t67.814\t2023-07-23 00:14:19.999\nINTC\t64.96714285714286\t2023-07-23 00:14:29.999\nINTC\t60.12428571428571\t2023-07-23 00:14:39.999\nINTC\t61.895\t2023-07-23 00:14:49.999\nMSFT\t36.483333333333334\t2023-07-23 00:03:29.999\nMSFT\t36.483333333333334\t2023-07-23 00:03:39.999\nMSFT\t36.483333333333334\t2023-07-23 00:03:49.999\nMSFT\t36.483333333333334\t2023-07-23 00:03:59.999\nMSFT\t36.483333333333334\t2023-07-23 00:04:09.999\nMSFT\t43.0125\t2023-07-23 00:04:19.999\nMSFT\t72.76333333333334\t2023-07-23 00:04:29.999\nMSFT\t81.464\t2023-07-23 00:04:39.999\nMSFT\t76.06833333333333\t2023-07-23 00:04:49.999\nMSFT\t76.03142857142858\t2023-07-23 00:04:59.999\nMSFT\t76.03142857142858\t2023-07-23 00:05:09.999\nMSFT\t68.38625\t2023-07-23 00:05:19.999\nMSFT\t58.09714285714285\t2023-07-23 00:05:29.999\nMSFT\t41.971428571428575\t2023-07-23 00:05:39.999\nMSFT\t36.848571428571425\t2023-07-23 00:05:49.999\nMSFT\t30.355\t2023-07-23 00:05:59.999\nMSFT\t38.32\t2023-07-23 00:06:09.999\nMSFT\t38.154\t2023-07-23 00:06:19.999\nMSFT\t52.906666666666666\t2023-07-23 00:06:29.999\nMSFT\t59.584\t2023-07-23 00:06:39.999\nMSFT\t71.1725\t2023-07-23 00:06:49.999\nMSFT\t72.86333333333333\t2023-07-23 00:06:59.999\nMSFT\t59.321666666666665\t2023-07-23 00:07:09.999\nMSFT\t60.09125\t2023-07-23 00:07:19.999\nMSFT\t59.698571428571434\t2023-07-23 00:07:29.999\nMSFT\t62.39\t2023-07-23 00:07:39.999\nMSFT\t62.39\t2023-07-23 00:07:49.999\nMSFT\t50.071666666666665\t2023-07-23 00:07:59.999\nMSFT\t59.114\t2023-07-23 00:08:09.999\nMSFT\t56.923333333333325\t2023-07-23 00:08:19.999\nMSFT\t48.40333333333333\t2023-07-23 00:08:29.999\nMSFT\t34.87\t2023-07-23 00:08:39.999\nMSFT\t41.056666666666665\t2023-07-23 00:08:49.999\nMSFT\t50.254000000000005\t2023-07-23 00:08:59.999\nMSFT\t43.17857142857143\t2023-07-23 00:09:09.999\nMSFT\t49.8775\t2023-07-23 00:09:19.999\nMSFT\t49.35285714285715\t2023-07-23 00:09:29.999\nMSFT\t47.82333333333334\t2023-07-23 00:09:39.999\nMSFT\t41.391000000000005\t2023-07-23 00:09:49.999\nMSFT\t44.27875\t2023-07-23 00:09:59.999\nMSFT\t46.1\t2023-07-23 00:10:09.999\nMSFT\t41.17625\t2023-07-23 00:10:19.999\nMSFT\t38.95777777777778\t2023-07-23 00:10:29.999\nMSFT\t42.425\t2023-07-23 00:10:39.999\nMSFT\t50.41166666666667\t2023-07-23 00:10:49.999\nMSFT\t37.135\t2023-07-23 00:10:59.999\nMSFT\t39.315\t2023-07-23 00:11:09.999\nMSFT\t36.43000000000001\t2023-07-23 00:11:19.999\nMSFT\t41.50333333333334\t2023-07-23 00:11:29.999\nMSFT\t18.610000000000003\t2023-07-23 00:11:39.999\nMSFT\t25.0575\t2023-07-23 00:11:49.999\nMSFT\t28.7575\t2023-07-23 00:11:59.999\nMSFT\t31.125999999999998\t2023-07-23 00:12:09.999\nMSFT\t48.00142857142857\t2023-07-23 00:12:19.999\nMSFT\t53.45625\t2023-07-23 00:12:29.999\nMSFT\t60.37285714285714\t2023-07-23 00:12:39.999\nMSFT\t66.94375\t2023-07-23 00:12:49.999\nMSFT\t66.20555555555555\t2023-07-23 00:12:59.999\nMSFT\t71.46\t2023-07-23 00:13:09.999\nMSFT\t69.48666666666666\t2023-07-23 00:13:19.999\nMSFT\t68.40833333333333\t2023-07-23 00:13:29.999\nMSFT\t68.40833333333333\t2023-07-23 00:13:39.999\nMSFT\t63.2775\t2023-07-23 00:13:49.999\nMSFT\t64.51333333333334\t2023-07-23 00:13:59.999\nMSFT\t38.473333333333336\t2023-07-23 00:14:09.999\nMSFT\t38.473333333333336\t2023-07-23 00:14:19.999\nMSFT\t15.125\t2023-07-23 00:14:29.999\nMSFT\t39.82666666666667\t2023-07-23 00:14:39.999\nMSFT\t39.82666666666667\t2023-07-23 00:14:49.999\nTBV\t17.97\t2023-07-23 00:03:19.999\nTBV\t17.97\t2023-07-23 00:03:29.999\nTBV\t53.065\t2023-07-23 00:03:39.999\nTBV\t53.065\t2023-07-23 00:03:49.999\nTBV\t57.298\t2023-07-23 00:03:59.999\nTBV\t52.955000000000005\t2023-07-23 00:04:09.999\nTBV\t58.019999999999996\t2023-07-23 00:04:19.999\nTBV\t53.09444444444444\t2023-07-23 00:04:29.999\nTBV\t50.2575\t2023-07-23 00:04:39.999\nTBV\t53.40555555555555\t2023-07-23 00:04:49.999\nTBV\t50.802499999999995\t2023-07-23 00:04:59.999\nTBV\t52.231249999999996\t2023-07-23 00:05:09.999\nTBV\t51.91166666666666\t2023-07-23 00:05:19.999\nTBV\t54.120000000000005\t2023-07-23 00:05:29.999\nTBV\t51.55500000000001\t2023-07-23 00:05:39.999\nTBV\t32.475\t2023-07-23 00:05:49.999\nTBV\t53.19\t2023-07-23 00:05:59.999\nTBV\t50.77333333333334\t2023-07-23 00:06:09.999\nTBV\t49.59\t2023-07-23 00:06:19.999\nTBV\t46.075714285714284\t2023-07-23 00:06:29.999\nTBV\t46.075714285714284\t2023-07-23 00:06:39.999\nTBV\t52.708749999999995\t2023-07-23 00:06:49.999\nTBV\t38.56714285714286\t2023-07-23 00:06:59.999\nTBV\t40.3\t2023-07-23 00:07:09.999\nTBV\t35.114\t2023-07-23 00:07:19.999\nTBV\t48.79\t2023-07-23 00:07:29.999\nTBV\t48.5\t2023-07-23 00:07:39.999\nTBV\t43.062000000000005\t2023-07-23 00:07:49.999\nTBV\t44.4425\t2023-07-23 00:07:59.999\nTBV\t44.496\t2023-07-23 00:08:09.999\nTBV\t62.25714285714285\t2023-07-23 00:08:19.999\nTBV\t56.65125\t2023-07-23 00:08:29.999\nTBV\t61.55625\t2023-07-23 00:08:39.999\nTBV\t60.121249999999996\t2023-07-23 00:08:49.999\nTBV\t60.121249999999996\t2023-07-23 00:08:59.999\nTBV\t62.32285714285714\t2023-07-23 00:09:09.999\nTBV\t55.668000000000006\t2023-07-23 00:09:19.999\nTBV\t68.3475\t2023-07-23 00:09:29.999\nTBV\t67.3925\t2023-07-23 00:09:39.999\nTBV\t71.75750000000001\t2023-07-23 00:09:49.999\nTBV\t71.75750000000001\t2023-07-23 00:09:59.999\nTBV\t71.75750000000001\t2023-07-23 00:10:09.999\nTBV\t57.528\t2023-07-23 00:10:19.999\nTBV\t49.0075\t2023-07-23 00:10:29.999\nTBV\t39.7675\t2023-07-23 00:10:39.999\nTBV\t38.682500000000005\t2023-07-23 00:10:49.999\nTBV\t44.472\t2023-07-23 00:10:59.999\nTBV\t46.4925\t2023-07-23 00:11:09.999\nTBV\t44.44\t2023-07-23 00:11:19.999\nTBV\t50.00875\t2023-07-23 00:11:29.999\nTBV\t56.101111111111116\t2023-07-23 00:11:39.999\nTBV\t59.69375\t2023-07-23 00:11:49.999\nTBV\t51.291250000000005\t2023-07-23 00:11:59.999\nTBV\t43.741666666666674\t2023-07-23 00:12:09.999\nTBV\t43.28333333333334\t2023-07-23 00:12:19.999\nTBV\t38.43\t2023-07-23 00:12:29.999\nTBV\t26.772857142857145\t2023-07-23 00:12:39.999\nTBV\t26.772857142857145\t2023-07-23 00:12:49.999\nTBV\t31.166666666666668\t2023-07-23 00:12:59.999\nTBV\t34.306666666666665\t2023-07-23 00:13:09.999\nTBV\t46.69428571428572\t2023-07-23 00:13:19.999\nTBV\t45.712\t2023-07-23 00:13:29.999\nTBV\t62.925\t2023-07-23 00:13:39.999\nTBV\t68.05999999999999\t2023-07-23 00:13:49.999\nTBV\t61.46857142857142\t2023-07-23 00:13:59.999\nTBV\t63.055\t2023-07-23 00:14:09.999\nTBV\t53.662222222222226\t2023-07-23 00:14:19.999\nTBV\t48.50727272727273\t2023-07-23 00:14:29.999\nTBV\t44.169\t2023-07-23 00:14:39.999\nTBV\t39.23222222222223\t2023-07-23 00:14:49.999\n"
+          },
+          {
+            "type": "TEXT",
+            "data": "Fail to run sql command: SELECT\n    stock_table.ticker as ticker,\n    AVG(stock_table.price) AS avg_price,\n    HOP_ROWTIME(stock_table.event_time, INTERVAL '10' second, INTERVAL '1' minute) as hop_time\nFROM stock_table\nGROUP BY HOP(stock_table.event_time, INTERVAL '10' second, INTERVAL '1' minute), stock_table.ticker\n"
+          },
+          {
+            "type": "ANGULAR",
+            "data": "<div class='container ng-scope' style='padding-left:0px;padding-right:0px;'>\n    <div class='panel panel-danger'>\n        <div class='panel-heading' ng-click='isOpen=!isOpen' ng-init='isOpen=false' style=\"cursor:pointer\">\n            <div class='plainTextContainer' style='font-weight:bolder'><i class=\"fa fa-caret-right fa-fw\" style=\"padding-right:7px;transition:all 0.3s;{{isOpen?'transform:rotate(90deg);transform-origin:25% 45%':''}}\"></i>Job was cancelled.</div>\n        </div>\n        <div class='panel-collapse' uib-collapse='!isOpen'>\n            <div class='text' style='max-height:300px;overflow:auto;padding:10px'>java.io.IOException: Fail to run stream sql job\n\tat org.apache.zeppelin.flink.sql.AbstractStreamSqlJob.run(AbstractStreamSqlJob.java:172)\n\tat org.apache.zeppelin.flink.sql.AbstractStreamSqlJob.run(AbstractStreamSqlJob.java:105)\n\tat org.apache.zeppelin.flink.FlinkStreamSqlInterpreter.callInnerSelect(FlinkStreamSqlInterpreter.java:89)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.callSelect(FlinkSqlInterrpeter.java:503)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.callCommand(FlinkSqlInterrpeter.java:266)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.runSqlList(FlinkSqlInterrpeter.java:160)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.internalInterpret(FlinkSqlInterrpeter.java:112)\n\tat org.apache.zeppelin.interpreter.AbstractInterpreter.interpret(AbstractInterpreter.java:47)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:110)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:852)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:744)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:132)\n\tat org.apache.zeppelin.scheduler.ParallelScheduler.lambda$runJobInScheduler$0(ParallelScheduler.java:46)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: java.util.concurrent.ExecutionException: org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: 719998c7fbeb6d0692d96efa63e67d5c)\n\tat java.base/java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:395)\n\tat java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:1999)\n\tat org.apache.flink.streaming.api.environment.StreamExecutionEnvironment.execute(StreamExecutionEnvironment.java:1719)\n\tat org.apache.flink.table.planner.delegation.ExecutorBase.execute(ExecutorBase.java:52)\n\tat org.apache.flink.table.api.internal.TableEnvironmentImpl.execute(TableEnvironmentImpl.java:1214)\n\tat org.apache.zeppelin.flink.sql.AbstractStreamSqlJob.run(AbstractStreamSqlJob.java:161)\n\t... 16 more\nCaused by: org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: 719998c7fbeb6d0692d96efa63e67d5c)\n\tat org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$getJobExecutionResult$6(ClusterClientJobClientAdapter.java:116)\n\tat java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:642)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2073)\n\tat org.apache.flink.client.program.rest.RestClusterClient.lambda$pollResourceAsync$22(RestClusterClient.java:602)\n\tat java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:859)\n\tat java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:837)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2073)\n\tat org.apache.flink.runtime.concurrent.FutureUtils.lambda$retryOperationWithDelay$8(FutureUtils.java:309)\n\tat java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:859)\n\tat java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:837)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.postFire(CompletableFuture.java:610)\n\tat java.base/java.util.concurrent.CompletableFuture$UniCompose.tryFire(CompletableFuture.java:1085)\n\tat java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:478)\n\t... 3 more\nCaused by: org.apache.flink.runtime.client.JobCancellationException: Job was cancelled.\n\tat org.apache.flink.runtime.jobmaster.JobResult.toJobExecutionResult(JobResult.java:149)\n\tat org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$getJobExecutionResult$6(ClusterClientJobClientAdapter.java:114)\n\t... 18 more\n</div>\n        </div>\n    </div>\n</div>\n"
+          }
+        ]
+      },
+      "dateFinished": "2023-07-23T00:15:04+0000"
+    },
+    {
+      "text": "%md \n## Sink Table - Write to S3 \n",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:03:26+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Sink Table - Write to S3</h2>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690070585464_1144131924",
+      "id": "paragraph_1690070585464_1144131924",
+      "dateCreated": "2023-07-23T00:03:05+0000",
+      "dateStarted": "2023-07-23T00:03:26+0000",
+      "dateFinished": "2023-07-23T00:03:26+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:294"
+    },
+    {
+      "text": "%flink.ssql(type=upate)\nDROP TABLE IF EXISTS stock_output_table;\nDROP TABLE IF EXISTS stock_output_table_json;",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:30:53+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 12,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690071051322_1541424099",
+      "id": "paragraph_1690071051322_1541424099",
+      "dateCreated": "2023-07-23T00:10:51+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:7329",
+      "dateFinished": "2023-07-23T00:30:56+0000",
+      "dateStarted": "2023-07-23T00:30:53+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been dropped.\nTable has been dropped.\n"
           }
         ]
       }
     },
     {
+      "text": "%flink.pyflink\n\nst_env.get_config().get_configuration().set_string(\n    \"execution.checkpointing.interval\", \"1min\"\n)\n\nst_env.get_config().get_configuration().set_string(\n    \"execution.checkpointing.mode\", \"EXACTLY_ONCE\"\n)",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:30:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 12,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690070606647_916710956",
+      "id": "paragraph_1690070606647_916710956",
+      "dateCreated": "2023-07-23T00:03:26+0000",
+      "dateStarted": "2023-07-23T00:30:55+0000",
+      "dateFinished": "2023-07-23T00:30:56+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:295"
+    },
+    {
+      "text": "%flink.ssql(type=update)\nCREATE TABLE stock_output_table(\n    ticker STRING,\n    price DOUBLE,\n    event_time TIMESTAMP(3))\n    PARTITIONED BY (ticker)\nWITH (\n    'connector'='filesystem',\n    'path'='s3a://data-lake-stream-20072023/kafka-data/',\n    'format'='csv',\n    'sink.partition-commit.policy.kind'='success-file',\n    'sink.partition-commit.delay' = '1 min'\n);",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:22:53+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 12,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been created.\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690070626120_1581875612",
+      "id": "paragraph_1690070626120_1581875612",
+      "dateCreated": "2023-07-23T00:03:46+0000",
+      "dateStarted": "2023-07-23T00:22:53+0000",
+      "dateFinished": "2023-07-23T00:22:54+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:296"
+    },
+    {
+      "text": "%flink.ssql(type=update)\nINSERT INTO stock_output_table \nSELECT \n    ticker,\n    price,\n    event_time\nFROM stock_table",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:22:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 12,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "FLINK JOB",
+          "tooltip": "View in Flink web UI",
+          "group": "flink",
+          "values": [
+            {
+              "jobUrl": "/flinkdashboard/#/job/1bac3e5c3eab57364c47745e83fbf5a6",
+              "$$hashKey": "object:15286"
+            }
+          ],
+          "interpreterSettingId": "flink"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690070627027_1619728892",
+      "id": "paragraph_1690070627027_1619728892",
+      "dateCreated": "2023-07-23T00:03:47+0000",
+      "dateStarted": "2023-07-23T00:22:55+0000",
+      "status": "ABORT",
+      "$$hashKey": "object:297",
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Fail to run sql command: INSERT INTO stock_output_table \nSELECT \n    ticker,\n    price,\n    event_time\nFROM stock_table\n"
+          },
+          {
+            "type": "ANGULAR",
+            "data": "<div class='container ng-scope' style='padding-left:0px;padding-right:0px;'>\n    <div class='panel panel-danger'>\n        <div class='panel-heading' ng-click='isOpen=!isOpen' ng-init='isOpen=false' style=\"cursor:pointer\">\n            <div class='plainTextContainer' style='font-weight:bolder'><i class=\"fa fa-caret-right fa-fw\" style=\"padding-right:7px;transition:all 0.3s;{{isOpen?'transform:rotate(90deg);transform-origin:25% 45%':''}}\"></i>Job was cancelled.</div>\n        </div>\n        <div class='panel-collapse' uib-collapse='!isOpen'>\n            <div class='text' style='max-height:300px;overflow:auto;padding:10px'>java.io.IOException: java.util.concurrent.ExecutionException: org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: 1bac3e5c3eab57364c47745e83fbf5a6)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.callInsertInto(FlinkSqlInterrpeter.java:538)\n\tat org.apache.zeppelin.flink.FlinkStreamSqlInterpreter.callInsertInto(FlinkStreamSqlInterpreter.java:97)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.callCommand(FlinkSqlInterrpeter.java:273)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.runSqlList(FlinkSqlInterrpeter.java:160)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.internalInterpret(FlinkSqlInterrpeter.java:112)\n\tat org.apache.zeppelin.interpreter.AbstractInterpreter.interpret(AbstractInterpreter.java:47)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:110)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:852)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:744)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:132)\n\tat org.apache.zeppelin.scheduler.ParallelScheduler.lambda$runJobInScheduler$0(ParallelScheduler.java:46)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: java.util.concurrent.ExecutionException: org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: 1bac3e5c3eab57364c47745e83fbf5a6)\n\tat java.base/java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:395)\n\tat java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:1999)\n\tat org.apache.flink.streaming.api.environment.StreamExecutionEnvironment.execute(StreamExecutionEnvironment.java:1719)\n\tat org.apache.flink.table.planner.delegation.ExecutorBase.execute(ExecutorBase.java:52)\n\tat org.apache.flink.table.api.internal.TableEnvironmentImpl.execute(TableEnvironmentImpl.java:1214)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.callInsertInto(FlinkSqlInterrpeter.java:532)\n\t... 14 more\nCaused by: org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: 1bac3e5c3eab57364c47745e83fbf5a6)\n\tat org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$getJobExecutionResult$6(ClusterClientJobClientAdapter.java:116)\n\tat java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:642)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2073)\n\tat org.apache.flink.client.program.rest.RestClusterClient.lambda$pollResourceAsync$22(RestClusterClient.java:602)\n\tat java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:859)\n\tat java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:837)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2073)\n\tat org.apache.flink.runtime.concurrent.FutureUtils.lambda$retryOperationWithDelay$8(FutureUtils.java:309)\n\tat java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:859)\n\tat java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:837)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.postFire(CompletableFuture.java:610)\n\tat java.base/java.util.concurrent.CompletableFuture$UniCompose.tryFire(CompletableFuture.java:1085)\n\tat java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:478)\n\t... 3 more\nCaused by: org.apache.flink.runtime.client.JobCancellationException: Job was cancelled.\n\tat org.apache.flink.runtime.jobmaster.JobResult.toJobExecutionResult(JobResult.java:149)\n\tat org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$getJobExecutionResult$6(ClusterClientJobClientAdapter.java:114)\n\t... 18 more\n</div>\n        </div>\n    </div>\n</div>\n"
+          }
+        ]
+      },
+      "dateFinished": "2023-07-23T00:30:32+0000"
+    },
+    {
+      "text": "%md \n\n## Sink Table - Write to S3 \n",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:11:43+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690071088657_1462023861",
+      "id": "paragraph_1690071088657_1462023861",
+      "dateCreated": "2023-07-23T00:11:28+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:8617",
+      "dateFinished": "2023-07-23T00:11:43+0000",
+      "dateStarted": "2023-07-23T00:11:43+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Sink Table - Write to S3</h2>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%flink.ssql(type=update)\nCREATE TABLE stock_output_table_json(\n    ticker STRING,\n    price DOUBLE,\n    event_time TIMESTAMP(3))\n    PARTITIONED BY (ticker)\nWITH (\n    'connector'='filesystem',\n    'path'='s3a://data-lake-stream-20072023/kafka-data-json/',\n    'format'='json',\n    'sink.rolling-policy.rollover-interval' = '60s',\n    'sink.rolling-policy.check-interval' = '30s'\n);",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:31:16+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 12,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690070627666_647936349",
+      "id": "paragraph_1690070627666_647936349",
+      "dateCreated": "2023-07-23T00:03:47+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:298",
+      "dateFinished": "2023-07-23T00:31:16+0000",
+      "dateStarted": "2023-07-23T00:31:16+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been created.\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%flink.ssql(type=update)\nINSERT INTO stock_output_table_json \nSELECT \n    ticker,\n    price,\n    event_time\nFROM stock_table",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:31:25+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 12,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "FLINK JOB",
+          "tooltip": "View in Flink web UI",
+          "group": "flink",
+          "values": [
+            {
+              "jobUrl": "/flinkdashboard/#/job/517d66d12111bf53caa8dbe2c63cc806",
+              "$$hashKey": "object:15402"
+            }
+          ],
+          "interpreterSettingId": "flink"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690070628352_887190946",
+      "id": "paragraph_1690070628352_887190946",
+      "dateCreated": "2023-07-23T00:03:48+0000",
+      "status": "RUNNING",
+      "$$hashKey": "object:299",
+      "dateFinished": "2023-07-23T00:31:21+0000",
+      "dateStarted": "2023-07-23T00:31:25+0000"
+    },
+    {
       "text": "%flink.ssql\n",
       "user": "anonymous",
-      "dateUpdated": "2023-07-22T15:12:37+0000",
+      "dateUpdated": "2023-07-23T00:13:07+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690071187090_856208368",
+      "id": "paragraph_1690071187090_856208368",
+      "dateCreated": "2023-07-23T00:13:07+0000",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:11817"
+    },
+    {
+      "text": "%flink.ssql\n",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:13:06+0000",
       "progress": 0,
       "config": {
         "colWidth": 12,
@@ -177,11 +903,75 @@
       "apps": [],
       "runtimeInfos": {},
       "progressUpdateIntervalMs": 500,
-      "jobName": "paragraph_1690038757338_272278629",
-      "id": "paragraph_1690038757338_272278629",
-      "dateCreated": "2023-07-22T15:12:37+0000",
+      "jobName": "paragraph_1690071186648_1429332209",
+      "id": "paragraph_1690071186648_1429332209",
+      "dateCreated": "2023-07-23T00:13:06+0000",
       "status": "READY",
-      "$$hashKey": "object:10810"
+      "focus": true,
+      "$$hashKey": "object:11748"
+    },
+    {
+      "text": "%flink.ssql\n",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:13:06+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690071186073_340581786",
+      "id": "paragraph_1690071186073_340581786",
+      "dateCreated": "2023-07-23T00:13:06+0000",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:11649"
+    },
+    {
+      "text": "%flink.pyflink\n",
+      "user": "anonymous",
+      "dateUpdated": "2023-07-23T00:03:48+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1690070628988_1613671718",
+      "id": "paragraph_1690070628988_1613671718",
+      "dateCreated": "2023-07-23T00:03:48+0000",
+      "status": "READY",
+      "$$hashKey": "object:300"
     }
   ],
   "name": "demo 4 msk stock event",

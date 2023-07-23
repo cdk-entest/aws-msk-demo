@@ -10,6 +10,7 @@ date: 20-07-2023
 
 This [GitHub](https://github.com/cdk-entest/aws-msk-demo) shows basic architecture and examples with MSK and Kinesis Data Analytics (FLINK)
 
+- Setup s3 vpc endpoint, glue vpc endpoint for msk
 - Create a msk cluster
 - Create client, pub/sub topic
 - Update cluster configuration
@@ -210,6 +211,80 @@ run a simple query
 ```sql
 %flink.ssql(type=update)
 SELECT * FROM stock_stream
+```
+
+create a sink table for writting to s3
+
+```sql
+%flink.ssql(type=update)
+CREATE TABLE stock_output_table(
+    ticker STRING,
+    price DOUBLE,
+    event_time TIMESTAMP(3))
+    PARTITIONED BY (ticker)
+WITH (
+    'connector'='filesystem',
+    'path'='s3a://data-lake-stream-20072023/kafka-data/',
+    'format'='csv',
+    'sink.partition-commit.policy.kind'='success-file',
+    'sink.partition-commit.delay' = '1 min'
+);
+```
+
+enable checkpoint
+
+```sql
+%flink.pyflink
+
+st_env.get_config().get_configuration().set_string(
+    "execution.checkpointing.interval", "1min"
+)
+
+st_env.get_config().get_configuration().set_string(
+    "execution.checkpointing.mode", "EXACTLY_ONCE"
+)
+```
+
+insert data into the sink table, in case of msk, need to setup s3 endpoint
+
+```sql
+%flink.ssql(type=update)
+INSERT INTO stock_output_table
+SELECT
+    ticker,
+    price,
+    event_time
+FROM stock_table
+```
+
+similarly, we can writ to json format by another table
+
+```sql
+%flink.ssql(type=update)
+CREATE TABLE stock_output_table_json(
+    ticker STRING,
+    price DOUBLE,
+    event_time TIMESTAMP(3))
+    PARTITIONED BY (ticker)
+WITH (
+    'connector'='filesystem',
+    'path'='s3a://data-lake-stream-20072023/kafka-data-json/',
+    'format'='json',
+    'sink.rolling-policy.rollover-interval' = '60s',
+    'sink.rolling-policy.check-interval' = '30s'
+);
+```
+
+then insert data into json table
+
+```sql
+%flink.ssql(type=update)
+INSERT INTO stock_output_table_json
+SELECT
+    ticker,
+    price,
+    event_time
+FROM stock_table
 ```
 
 ## Policy for Client
