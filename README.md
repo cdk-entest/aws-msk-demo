@@ -432,6 +432,12 @@ Best practice policy with resource arn
 - update security (allow unauthorized access) of msk
 - double check name of stream
 
+Describe a cluster
+
+```bash
+aws kafka describe-cluster --cluster-arn "CLUSTER_ARN"
+```
+
 ## Reference
 
 - [msk kafka to apache iceberg](https://github.com/aws-samples/aws-glue-streaming-ingestion-from-kafka-to-apache-iceberg/tree/main)
