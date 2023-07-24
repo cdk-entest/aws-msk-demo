@@ -2,8 +2,8 @@
 author: haimtran
 title: getting started with msk
 description: getting started with msk
-publishedDate: 20-07-2023
-date: 20-07-2023
+publishedDate: 20/07/2022
+date: 2022-20-07
 ---
 
 ## Introduction
@@ -20,6 +20,12 @@ This [GitHub](https://github.com/cdk-entest/aws-msk-demo) shows basic architectu
 ![msk-arch](https://github.com/cdk-entest/aws-msk-demo/assets/20411077/58f9bac9-320e-440f-83b4-5b59106ab681)
 
 ## Setup Client
+
+describe a cluster
+
+```bash
+aws kafka describe-cluster --cluster-arn "CLUSTER_ARN"
+```
 
 install java for EC2
 
