@@ -17,14 +17,54 @@ This [GitHub](https://github.com/cdk-entest/aws-msk-demo) shows basic architectu
 - Create a zeppeline notebook
 - Do some simple streaming analytics
 
-![msk-arch](https://github.com/cdk-entest/aws-msk-demo/assets/20411077/0df1f78d-ad89-4541-856f-07975f06169b)
+![msk-arch](./assets/msk-arch.png)
 
 ## Setup Client
 
-describe a cluster
+Setup permissions for client with the following policy, this policy apply for both
+
+- EC2 for demo
+- Zeppline notebook
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "kafka-cluster:Connect",
+        "kafka-cluster:AlterCluster",
+        "kafka-cluster:DescribeCluster"
+      ],
+      "Resource": ["arn:aws:kafka:ap-southeast-1:1111222233334444:cluster/*"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "kafka-cluster:*Topic*",
+        "kafka-cluster:WriteData",
+        "kafka-cluster:ReadData"
+      ],
+      "Resource": ["arn:aws:kafka:ap-southeast-1:1111222233334444:topic/*"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["kafka-cluster:AlterGroup", "kafka-cluster:DescribeGroup"],
+      "Resource": ["arn:aws:kafka:ap-southeast-1:1111222233334444:group/*"]
+    }
+  ]
+}
+```
+
+Describe a cluster
 
 ```bash
-aws kafka describe-cluster --cluster-arn "CLUSTER_ARN"
+export CLUSTER_ARN=
+```
+
+```bash
+aws kafka describe-cluster --cluster-arn $CLUSTER_ARN
 ```
 
 install java for EC2
@@ -76,7 +116,7 @@ chmod 700 client.properties
 
 ## Pub and Sub
 
-![msk-kda-demo-1](https://github.com/cdk-entest/aws-msk-demo/assets/20411077/cdc8a1cc-5659-4ac4-80b2-60484b4be519)
+![msk-kda-demo-1](./assets/msk-vpc-endpoint.png)
 
 Check the msk client information to get endpoint and run below command to create an topic. Export the list of broker
 
@@ -88,8 +128,8 @@ export ENDPOINT="IAM_BOOTSTRAP_BROKERS_GO_HERE"
 bin/kafka-topics.sh \
 --create --bootstrap-server $ENDPOINT \
 --command-config bin/client.properties \
---replication-factor 3 --partitions 1 \
---topic MSKTutorialTopic
+--replication-factor 3 --partitions 3 \
+--topic sensor-topic
 ```
 
 list topic
@@ -106,7 +146,7 @@ describe a topic
 bin/kafka-topics.sh \
 --describe --bootstrap-server  $ENDPOINT \
 --command-config bin/client.properties \
---topic MSKTutorialTopic
+--topic sensor-topic
 ```
 
 send a message to by using a producer
@@ -115,7 +155,7 @@ send a message to by using a producer
 bin/kafka-console-producer.sh --broker-list \
 $ENDPOINT \
 --producer.config bin/client.properties \
---topic MSKTutorialTopic
+--topic sensor-topic
 ```
 
 receive message by using a consumer
@@ -124,7 +164,7 @@ receive message by using a consumer
 bin/kafka-console-consumer.sh \
 --bootstrap-server $ENDPOINT \
 --consumer.config bin/client.properties \
---topic MSKTutorialTopic \
+--topic sensor-topic \
 --from-beginning
 ```
 
@@ -184,8 +224,7 @@ while True:
 
 ## Notebook
 
-![msk-kda-demo-2](https://github.com/cdk-entest/aws-msk-demo/assets/20411077/dad89638-ead7-43d5-8a39-fbd36da83637)
-
+![msk-kda-demo-2](./assets/msk-flink-notebook.png)
 
 Please update the vpc configuration for notebook first, so it can access msk cluster inside a vpc.Then let create a table which connect to the kafka topic stream, please use the IAM BOOTSTRAP CLUSTER. From the producer please use correct datetime formate for event_time.
 
@@ -437,6 +476,64 @@ Describe a cluster
 
 ```bash
 aws kafka describe-cluster --cluster-arn "CLUSTER_ARN"
+```
+
+## Troubleshooting
+
+![IMPORTANT]
+
+> Please take note the difference between IAM_BOOTSTRAP_BROKERS_GO_HERE and SSL_BOOTSTRAP_CLUSTER. For demo, let enable aunthentication
+
+![enable-unauth](./assets/msk-unauth-enable.png)
+
+and client connection information
+
+![client-information](./assets/msk-cluster-client-infor.png)
+
+Install pip
+
+```bash
+python3 -m ensurepip --upgrade
+```
+
+Here is connection script via terminal
+
+```bash
+# export endpoint - iam
+export ENDPOINT=""
+export TOPIC=stock-topic
+
+# create a topic
+bin/kafka-topics.sh \
+--create --bootstrap-server $ENDPOINT \
+--command-config bin/client.properties \
+--replication-factor 2 --partitions 1 \
+--topic $TOPIC
+
+# list topic
+bin/kafka-topics.sh \
+--list --bootstrap-server $ENDPOINT \
+--command-config bin/client.properties
+
+# describe topic
+bin/kafka-topics.sh \
+--describe --bootstrap-server  $ENDPOINT \
+--command-config bin/client.properties \
+--topic $TOPIC
+
+# pub a topic
+bin/kafka-console-producer.sh --broker-list \
+$ENDPOINT \
+--producer.config bin/client.properties \
+--topic $TOPIC
+
+
+# sub a topic
+bin/kafka-console-consumer.sh \
+--bootstrap-server $ENDPOINT \
+--consumer.config bin/client.properties \
+--topic  $TOPIC \
+--from-beginning
 ```
 
 ## Reference
